@@ -8,6 +8,9 @@ class Scene {
   private PGraphics renderingSurface;
   private PImage backGround;
   
+  /**
+   * Scene constructor 
+   **/  
   Scene(PGraphics renderingSurface, String backGroundImgName) {
     actorList = new ArrayList();
     backGround = loadImage(backGroundImgName);
