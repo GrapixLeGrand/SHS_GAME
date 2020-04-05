@@ -12,6 +12,10 @@ class Billy extends Actor {
   private Timer t;
   private float velocity = 500;
   
+  /**
+   * Constructor of Billy
+   * @param : the original place where Billy will be placed  
+  **/
   Billy (PVector origin) {
  
     pos = new PVector(origin.x, origin.y);
