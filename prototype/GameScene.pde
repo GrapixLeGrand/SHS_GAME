@@ -54,6 +54,7 @@ class GameScene extends Scene{
     Room entrance = new Room("entrance", "room.png", dunjeon.width, dunjeon.height);
     Room roomA = new Room("room a", "room.png", dunjeon.width, dunjeon.height);
     Room roomB = new Room("room b", "room.png", dunjeon.width, dunjeon.height);
+    Room roomC = new Room("room c", "room.png", dunjeon.width, dunjeon.height);
     Door door1 = new Door(Position.NORTH, roomB);
     entrance.addItem(door1);
     Door door2 = new Door(Position.SOUTH, entrance);
@@ -62,6 +63,10 @@ class GameScene extends Scene{
     entrance.addItem(door3);
     Door door4 = new Door(Position.EAST, entrance);
     roomA.addItem(door4);
+    Door door5 = new Door(Position.WEST, roomC);
+    roomB.addItem(door5);
+    Door door6 = new Door(Position.EAST, roomB);
+    roomC.addItem(door6);
     
     currentRoom = entrance;
   }
