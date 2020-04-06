@@ -13,30 +13,30 @@ public class Door extends Item {
     this.sprite.resize(DOOR_WIDTH, DOOR_HEIGHT);
     this.label = nextRoom.getName();
     
-    this.position = cardinalToCoordinates(position, room);
+    this.position = cardinalToCoordinates(position);
   }
   
-  public void render(PGraphics surface) {
-    surface.textAlign(CENTER, TOP);
+  public void render() {
+    dunjeon.textAlign(CENTER, TOP);
     switch (cardinalPosition) {
       case NORTH : 
-        surface.image(sprite, surface.width/2-DOOR_WIDTH/2, 0);
-        surface.text(label, surface.width/2, 0);
+        dunjeon.image(sprite, dunjeon.width/2-DOOR_WIDTH/2, 0);
+        dunjeon.text(label, dunjeon.width/2, 0);
         break;
       case EAST :
-        surface.textAlign(RIGHT, TOP);
-        surface.image(sprite, surface.width-DOOR_WIDTH, surface.height/2 - DOOR_HEIGHT/2);
-        surface.text(label, surface.width, surface.height/2 - DOOR_HEIGHT/2);
+        dunjeon.textAlign(RIGHT, TOP);
+        dunjeon.image(sprite, dunjeon.width-DOOR_WIDTH, dunjeon.height/2 - DOOR_HEIGHT/2);
+        dunjeon.text(label, dunjeon.width, dunjeon.height/2 - DOOR_HEIGHT/2);
         break;
       case WEST :
-        surface.textAlign(LEFT, TOP);
-        surface.image(sprite, 0, surface.height/2 - DOOR_HEIGHT/2);
-        surface.text(label, 0, surface.height/2 - DOOR_HEIGHT/2);
+        dunjeon.textAlign(LEFT, TOP);
+        dunjeon.image(sprite, 0, dunjeon.height/2 - DOOR_HEIGHT/2);
+        dunjeon.text(label, 0, dunjeon.height/2 - DOOR_HEIGHT/2);
         break;
       case SOUTH :
-        surface.textAlign(CENTER, BOTTOM);
-        surface.image(sprite, surface.width/2-DOOR_WIDTH/2, surface.height - DOOR_HEIGHT);
-        surface.text(label, surface.width/2, surface.height);
+        dunjeon.textAlign(CENTER, BOTTOM);
+        dunjeon.image(sprite, dunjeon.width/2-DOOR_WIDTH/2, dunjeon.height - DOOR_HEIGHT);
+        dunjeon.text(label, dunjeon.width/2, dunjeon.height);
         break;
     }
     
@@ -49,13 +49,13 @@ public class Door extends Item {
 
 public enum Position {NORTH, EAST, SOUTH, WEST;}
 
-//convert a cardinal value (north, south...) in a position in a room)
-public PVector cardinalToCoordinates(Position p, Room room){
+//convert a cardinal value (north, south...) in a position in a the scene)
+public PVector cardinalToCoordinates(Position p){
   switch(p) {
-      case NORTH : return new PVector(room.width/2, DOOR_HEIGHT/2);
-      case SOUTH : return new PVector(room.width/2, room.height - DOOR_HEIGHT/2);
-      case EAST: return new PVector(room.width - DOOR_WIDTH/2, room.height/2);
-      case WEST: return new PVector(DOOR_WIDTH/2, room.height/2);
+      case NORTH : return new PVector(dunjeon.width/2, DOOR_HEIGHT/2);
+      case SOUTH : return new PVector(dunjeon.width/2, dunjeon.height - DOOR_HEIGHT/2);
+      case EAST: return new PVector(dunjeon.width - DOOR_WIDTH/2, dunjeon.height/2);
+      case WEST: return new PVector(DOOR_WIDTH/2, dunjeon.height/2);
     }
     return null;
 }

@@ -21,17 +21,16 @@ class Billy extends Actor {
     t.start();
   }
   
-  public void render(PGraphics surface) {
-    surface.pushMatrix();
-    surface.translate(position.x, position.y);
-    surface.scale(direction/2., 0.5);
-    surface.image(frameShown, -frameShown.width / 2, -frameShown.height/ 2);
-    surface.popMatrix();
+  public void render() {
+    dunjeon.pushMatrix();
+    dunjeon.translate(position.x, position.y);
+    dunjeon.scale(direction/2., 0.5);
+    dunjeon.image(frameShown, -frameShown.width / 2, -frameShown.height/ 2);
+    dunjeon.popMatrix();
   }
   
   public void update() {
     if (goal != null) {
-      println(goal.position.x);
       if (position.x != goal.position.x) {
         moveHorizontally();
       } else if (position.y != goal.position.y) {

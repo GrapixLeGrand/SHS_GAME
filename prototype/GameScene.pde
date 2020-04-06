@@ -1,18 +1,11 @@
 //a scene with a dunjeon and a terminal
 class GameScene extends Scene{
   
-  private PGraphics dunjeon;
-  private PGraphics terminal;
-  private Room currentRoom;
+  public Room currentRoom;
   private Command currentCommand;
-  private Billy billy;
-  
   private StringBuilder commandBuilder;
   
   public GameScene() {
-    this.dunjeon = createGraphics(height*3/4, height*3/4);
-    this.terminal = createGraphics(width, height/4);
-    this.billy = new Billy(new PVector(dunjeon.width/2, dunjeon.height/2));
     this.currentCommand = null;
     commandBuilder = new StringBuilder();
     buildDunjeon();
@@ -29,8 +22,8 @@ class GameScene extends Scene{
     
     dunjeon.beginDraw();
     dunjeon.background(0);
-    currentRoom.render(dunjeon);
-    billy.render(dunjeon);
+    currentRoom.render();
+    billy.render();
     dunjeon.endDraw();
     
     terminal.beginDraw();
@@ -46,15 +39,15 @@ class GameScene extends Scene{
     Door d = billy.getDoorToOpen();
     if (d != null) {
       currentRoom = d.nextRoom();
-      billy.setPosition(cardinalToCoordinates(Position.values()[(d.cardinalPosition.ordinal() + 2)%4], currentRoom));
+      billy.setPosition(cardinalToCoordinates(Position.values()[(d.cardinalPosition.ordinal() + 2)%4]));
     }
   }
   
   private void buildDunjeon() {
-    Room entrance = new Room("entrance", "room.png", dunjeon.width, dunjeon.height);
-    Room roomA = new Room("room a", "room.png", dunjeon.width, dunjeon.height);
-    Room roomB = new Room("room b", "room.png", dunjeon.width, dunjeon.height);
-    Room roomC = new Room("room c", "room.png", dunjeon.width, dunjeon.height);
+    Room entrance = new Room("entrance", "room.png");
+    Room roomA = new Room("room a", "room.png");
+    Room roomB = new Room("room b", "room.png");
+    Room roomC = new Room("room c", "room.png");
     Door door1 = new Door(Position.NORTH, roomB);
     entrance.addItem(door1);
     Door door2 = new Door(Position.SOUTH, entrance);
@@ -63,9 +56,9 @@ class GameScene extends Scene{
     entrance.addItem(door3);
     Door door4 = new Door(Position.EAST, entrance);
     roomA.addItem(door4);
-    Door door5 = new Door(Position.WEST, roomC);
+    Door door5 = new Door(Position.EAST, roomC);
     roomB.addItem(door5);
-    Door door6 = new Door(Position.EAST, roomB);
+    Door door6 = new Door(Position.WEST, roomB);
     roomC.addItem(door6);
     
     currentRoom = entrance;
@@ -79,7 +72,7 @@ class GameScene extends Scene{
     if (currentCommand == null) {
       if (key == ENTER || key == RETURN) {
         String newCommand = commandBuilder.toString().trim();
-        currentCommand = CommandParser.parse(newCommand, currentRoom, billy);
+        currentCommand = parse(newCommand);
         commandBuilder = new StringBuilder();
       }
       else if (key == BACKSPACE && commandBuilder.length() > 0) {
