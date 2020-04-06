@@ -21,12 +21,12 @@ class Billy extends Actor {
     t.start();
   }
   
-  public void render(PGraphics surface) {
-    surface.pushMatrix();
-    surface.translate(position.x, position.y);
-    surface.scale(direction/2., 0.5);
-    surface.image(frameShown, -frameShown.width / 2, -frameShown.height/ 2);
-    surface.popMatrix();
+  public void render() {
+    gameScene.dunjeon.pushMatrix();
+    gameScene.dunjeon.translate(position.x, position.y);
+    gameScene.dunjeon.scale(direction/2., 0.5);
+    gameScene.dunjeon.image(frameShown, -frameShown.width / 2, -frameShown.height/ 2);
+    gameScene.dunjeon.popMatrix();
   }
   
   public void update() {

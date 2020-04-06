@@ -1,6 +1,7 @@
 import java.util.*;
 
-Scene scene;
+GameScene gameScene;
+Scene currentScene;
 float dt;
 
 void settings() {
@@ -8,13 +9,14 @@ void settings() {
 }
 
 void setup() {
-  scene = new GameScene();
+  gameScene = new GameScene();
+  currentScene = gameScene;
 }
 
 void draw() {
-  scene.draw();
+  currentScene.draw();
 }
 
 void keyPressed() {
-  scene.keyPressed();
+  currentScene.keyPressed();
 }

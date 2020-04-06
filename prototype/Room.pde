@@ -4,15 +4,11 @@ class Room extends Actor {
   private List<Item> items;
   private String name;
   private PImage background;
-  public float width;
-  public float height;
   
-  Room(String name, String backgroundUrl, float width, float height) {
+  Room(String name, String backgroundUrl) {
     this.name = name;
     this.background = loadImage(backgroundUrl);
     this.items = new ArrayList<Item>();
-    this.width = width;
-    this.height = height;
   }
   
   public void addItem(Item item) {
@@ -25,11 +21,11 @@ class Room extends Actor {
     }
   }
   
-  public void render(PGraphics surface) {
-    this.background.resize(surface.width, surface.height);
-    surface.image(background, 0, 0);
+  public void render() {
+    this.background.resize(gameScene.dunjeon.width, gameScene.dunjeon.height);
+    gameScene.dunjeon.image(background, 0, 0);
     for (Item i : items) {
-      i.render(surface);
+      i.render();
     }
   }
   

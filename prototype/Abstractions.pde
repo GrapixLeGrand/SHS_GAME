@@ -13,9 +13,9 @@ abstract class Actor {
   abstract void update();
   
   /**
-   * render the actor on the given surface
+   * render the actor on the game scene
   **/
-  abstract void render(PGraphics surface);
+  abstract void render();
 
 }
 
@@ -31,9 +31,9 @@ abstract class Item extends Actor {
   
   public void update() {}
   
-  public void render(PGraphics surface) {
-    surface.image(sprite, position.x-width/2, position.y-height/2);
-    surface.textAlign(CENTER, BOTTOM);
-    surface.text(label, position.x-width/2, position.y-height/2);
+  public void render() {
+    gameScene.dunjeon.image(sprite, position.x-width/2, position.y-height/2);
+    gameScene.dunjeon.textAlign(CENTER, BOTTOM);
+    gameScene.dunjeon.text(label, position.x-width/2, position.y-height/2);
   }
 }
