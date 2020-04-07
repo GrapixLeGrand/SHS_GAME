@@ -4,7 +4,6 @@ class GameScene extends Scene{
   public Room currentRoom;
   private Command currentCommand;
   private StringBuilder commandBuilder;
-  public Billy billy;
   
   public GameScene() {
     this.currentCommand = null;
