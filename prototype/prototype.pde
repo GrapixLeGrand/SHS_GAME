@@ -10,8 +10,7 @@ Billy billy;
 //global variable for the sound
 final PApplet application = this;
 
-boolean testSound = false;
-Sound s;
+boolean testFunctionality = true;
 
 void settings() {
   size(1000, 1000, P2D);
@@ -23,12 +22,10 @@ void setup() {
   billy = new Billy(new PVector(dunjeon.width/2, dunjeon.height/2));
   gameScene = new GameScene();
   currentScene = gameScene;
-  s = new Sound("door.mp3");
-  s.play();
 }
 
 void draw() {
-  if (testSound){
+  if (testFunctionality){
     
   } else {
     currentScene.draw();

@@ -54,7 +54,7 @@ public class Door extends Item {
     }
   
   public void makeSound() {
-    doorSound.play();
+    doorSound.Play();
   }
   
 }

@@ -32,3 +32,26 @@ class Timer {
     run = true;
   }
 }
+
+import java.util.function.Function;
+import java.util.concurrent.Callable;
+
+
+class TaskTimer extends Timer {
+  
+  Callable<Void> c;
+  
+  void update() {
+    super.update();
+    execute(c);
+  }
+  
+  void execute(Callable<Void> fun) {
+    try {
+      fun.call();
+    } catch(Exception e) {
+      print(e);
+    }
+  }
+  
+}
