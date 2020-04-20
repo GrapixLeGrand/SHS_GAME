@@ -14,9 +14,13 @@ class GameScene extends Scene {
     buildDunjeon();
     bgMusic = new Sound(backGroundMusicName);
     bgMusic.Play();
+    bgMusic.setAmpWithDuration(0.0, 1.0, 5000);
   }
   
   public void draw() {
+    
+    bgMusic.update();
+    
     if (currentCommand == Command.CD && billy.goalReached()) {
       currentCommand = null;
       moveToNextRoom();
