@@ -4,13 +4,17 @@ abstract class Scene {
   abstract void keyPressed();
 }
 
-//an actor in the game
-abstract class Actor {
+abstract class Entity {
   
   /**
-   * update the states of an actor
+   * update the states of the entity
   **/
   abstract void update();
+
+}
+
+//an actor in the game
+abstract class Actor extends Entity {
   
   /**
    * render the actor on the game scene

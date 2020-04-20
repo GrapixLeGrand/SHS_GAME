@@ -25,9 +25,6 @@ void setup() {
   frameRate(60);
   //instantiating the draw board of the game
   gameSurface = createGraphics(928, 793, P2D);
-  //loading the background image
-  forest = loadImage("Background.png");
-  
   
   //creating a new Scene
   mainScene = new Scene(gameSurface, "Background.png");
@@ -54,5 +51,6 @@ void draw() {
   mainScene.update();
   mainScene.render();
    
-  println(dt);
+  PVector v = mouseXYUpdate();
+  println(v.x + " " + v.y);
 }

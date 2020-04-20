@@ -4,6 +4,14 @@
 //theses booleans are true if the key is pressed / held down and false otherwise
 boolean wKey, aKey, sKey, dKey;
 
+void mouseClicked() {
+  println(mouseX + " " + mouseY);
+}
+
+PVector mouseXYUpdate() {
+  return new PVector(mouseX, mouseY);
+}
+
 void keyReleased() {
   
   if (key == 'w') {
