@@ -39,6 +39,7 @@ class Billy extends Actor {
         goalReached = true;
         if (goal instanceof Door) {
           doorToOpen = (Door) goal;
+          doorToOpen.makeSound();
         }
         goal = null;
       }

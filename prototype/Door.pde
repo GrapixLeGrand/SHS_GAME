@@ -3,6 +3,10 @@ final int DOOR_HEIGHT = 75;
 
 //a door leading to another room
 public class Door extends Item {
+  
+  //added sound to door
+  Sound doorSound;
+  
   private Room nextRoom;
   public Position cardinalPosition;
   
@@ -14,6 +18,9 @@ public class Door extends Item {
     this.label = nextRoom.getName();
     
     this.position = cardinalToCoordinates(position);
+    
+    //instanciate the door
+    doorSound = new Sound("door.mp3");
   }
   
   public void render() {
@@ -45,7 +52,13 @@ public class Door extends Item {
   public Room nextRoom() {
       return nextRoom;
     }
+  
+  public void makeSound() {
+    doorSound.play();
+  }
+  
 }
+
 
 public enum Position {NORTH, EAST, SOUTH, WEST;}
 
