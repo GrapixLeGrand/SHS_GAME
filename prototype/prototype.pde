@@ -7,6 +7,8 @@ PGraphics dunjeon;
 PGraphics terminal;
 Billy billy;
 
+boolean testSound = true;
+
 void settings() {
   size(1000, 1000, P2D);
 }
@@ -20,7 +22,11 @@ void setup() {
 }
 
 void draw() {
-  currentScene.draw();
+  if (testSound){
+    
+  } else {
+    currentScene.draw();
+  }
 }
 
 void keyPressed() {
