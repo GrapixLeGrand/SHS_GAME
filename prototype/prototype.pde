@@ -8,6 +8,7 @@ PGraphics terminal;
 Billy billy;
 
 boolean testSound = true;
+Sound s;
 
 void settings() {
   size(1000, 1000, P2D);
@@ -19,6 +20,7 @@ void setup() {
   billy = new Billy(new PVector(dunjeon.width/2, dunjeon.height/2));
   gameScene = new GameScene();
   currentScene = gameScene;
+  s = new Sound(this, "door.mp3");
 }
 
 void draw() {
