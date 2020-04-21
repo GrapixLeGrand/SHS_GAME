@@ -11,14 +11,10 @@ Billy billy;
 final PApplet application = this;
 
 boolean testFunctionality = false;
-TaskTimer tt;
+
 
 void settings() {
   size(1000, 1000, P2D);
-}
-
-void print_m() {
-  print("fun print");
 }
 
 void setup() {
@@ -27,11 +23,10 @@ void setup() {
   billy = new Billy(new PVector(dunjeon.width/2, dunjeon.height/2));
   gameScene = new GameScene();
   currentScene = gameScene;
-  tt = new TaskTimer();
-  
 }
 
 void draw() {
+  
   if (testFunctionality){
     
   } else {

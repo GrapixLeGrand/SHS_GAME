@@ -4,16 +4,26 @@ class Timer {
   private long lastTime;
   private boolean run;
   
+  private boolean firstRun = true;
+  
   Timer() {
   }
   
   void update() {
+    
     if (run) {
+      
+      if (firstRun) {
+        lastTime = millis();
+        firstRun = false;
+      }
+      
       dt = millis() - lastTime;
       value += dt;
       dt = dt / 1000;
       lastTime = millis();
     }
+    
   }
   
   long getValue() {
