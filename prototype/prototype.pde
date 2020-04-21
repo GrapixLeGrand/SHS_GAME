@@ -28,8 +28,19 @@ void setup() {
 void draw() {
   
   if (testFunctionality){
+    ArrayList<String> salut = new ArrayList();
     String[] fontList = PFont.list();
-    printArray(fontList);
+    for (int i = 0; i < fontList.length; i ++) {
+      String s = fontList[i];
+      if (s.contains("Computer") || s.contains("computer")) {
+        salut.add(s);
+      }
+    }
+    
+    for (String k : salut) {
+      println(k);
+    }
+    
   } else {
     currentScene.draw();
   }
