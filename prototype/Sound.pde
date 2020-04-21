@@ -34,7 +34,6 @@ class Sound extends Entity {
 
     timer.update();
     
-    
     long currentTime = timer.getValue();
     if (isFading && currentTime <= fadeDuration) {
       
@@ -52,7 +51,9 @@ class Sound extends Entity {
   }
   
   /**
-   * 
+   * @param initialAmp : float => the inital amplitude
+   * @param targetAmp : float => the target amplitude 
+   * @param duration : long => the duration of the interpolation in milliseconds 
   */
   void setAmpWithDuration(float initialAmp, float targetAmp, long duration) {
     

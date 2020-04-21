@@ -17,6 +17,7 @@ class Billy extends Actor {
     this.goal = null;
     this.frame1 = loadImage("frame1.png");
     this.frame2 = loadImage("frame2.png");
+    this.frameShown = frame1;
     this.t = new Timer();
     t.start();
   }
@@ -25,7 +26,7 @@ class Billy extends Actor {
     dunjeon.pushMatrix();
     dunjeon.translate(position.x, position.y);
     dunjeon.scale(direction/2., 0.5);
-    dunjeon.image(frameShown, -frameShown.width / 2, -frameShown.height/ 2);
+    dunjeon.image(frameShown, - frameShown.width / 2, - frameShown.height/ 2);
     dunjeon.popMatrix();
   }
   
