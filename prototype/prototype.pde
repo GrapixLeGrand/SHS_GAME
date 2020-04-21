@@ -17,10 +17,6 @@ void settings() {
   size(1000, 1000, P2D);
 }
 
-void print_m() {
-  print("fun print");
-}
-
 void setup() {
   dunjeon = createGraphics(height*3/4, height*3/4);
   terminal = createGraphics(width, height/4);

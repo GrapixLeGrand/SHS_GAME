@@ -1,5 +1,4 @@
 
-
 import processing.sound.*;
 
 class Sound extends Entity {
@@ -8,13 +7,19 @@ class Sound extends Entity {
   private SoundFile file;
   private float amplitude;
   
-  private float fadeDuration;
+  private long fadeDuration;
   private boolean isFading;
   private float a;
   private float b;
   
+  private float targetAmp;
+  private float baseAmp;
+  
   //internal timer to sound to make fade effect
   private Timer timer;
+  
+  
+  boolean test = false;
   
   Sound(String path) {
     
@@ -22,23 +27,23 @@ class Sound extends Entity {
     this.amplitude = 1.0f;
     file = new SoundFile(application, path);
     timer = new Timer();
-  
+
   }
   
   void update() {
-    
+
     timer.update();
     
-    float currentTime = timer.getValue();
-    println(currentTime);
+    
+    long currentTime = timer.getValue();
     if (isFading && currentTime <= fadeDuration) {
       
       //computing the next amplitude value
-      
       setAmp( a * currentTime + b );
       
     } else if (currentTime > fadeDuration) {
       
+      setAmp(targetAmp);
       timer.stop();
       timer.restart();
       isFading = false;
@@ -49,7 +54,10 @@ class Sound extends Entity {
   /**
    * 
   */
-  void setAmpWithDuration(float initialAmp, float targetAmp, float duration) {
+  void setAmpWithDuration(float initialAmp, float targetAmp, long duration) {
+    
+    this.targetAmp = targetAmp;
+    this.baseAmp = initialAmp;
     this.isFading = true;
     this.fadeDuration = duration;
     a = - 1.0 * (initialAmp - targetAmp) / duration;

@@ -5,7 +5,8 @@ final int DOOR_HEIGHT = 75;
 public class Door extends Item {
   
   //added sound to door
-  Sound doorSound;
+  private Sound doorSound;
+  private String doorSoundPath = "door.mp3";
   
   private Room nextRoom;
   public Position cardinalPosition;
@@ -19,9 +20,11 @@ public class Door extends Item {
     
     this.position = cardinalToCoordinates(position);
     
-    //instanciate the door
-    doorSound = new Sound("door.mp3");
+    //instanciate the door sound
+    doorSound = new Sound(doorSoundPath);
   }
+  
+  public void update() {}
   
   public void render() {
     dunjeon.textAlign(CENTER, TOP);

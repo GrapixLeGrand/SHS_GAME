@@ -14,7 +14,7 @@ class GameScene extends Scene {
     buildDunjeon();
     bgMusic = new Sound(backGroundMusicName);
     bgMusic.Play();
-    bgMusic.setAmpWithDuration(0.0, 1.0, 5000);
+    bgMusic.setAmpWithDuration(0.0, 1.0, 25000);
   }
   
   public void draw() {

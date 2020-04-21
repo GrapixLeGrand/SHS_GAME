@@ -33,7 +33,7 @@ abstract class Item extends Actor {
   public final int height = 50;
   
   
-  public void update() {}
+  abstract public void update();
   
   public void render() {
     dunjeon.image(sprite, position.x-width/2, position.y-height/2);
