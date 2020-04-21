@@ -1,3 +1,4 @@
+
 //what is currently happening in the game
 abstract class Scene {
   abstract void draw();
