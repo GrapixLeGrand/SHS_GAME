@@ -15,7 +15,7 @@ class GameScene extends Scene {
     bgMusic = new Sound(backGroundMusicName);
     bgMusic.Play();
     //make the music comes progressively during 10 secs
-    bgMusic.setAmpWithDuration(0.0, 1.0, 10000);
+    bgMusic.setAmpWithDuration(0.0, 0.6, 10000);
   }
   
   public void draw() {
