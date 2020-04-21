@@ -10,7 +10,7 @@ Billy billy;
 //global variable for the sound
 final PApplet application = this;
 
-boolean testFunctionality = false;
+boolean testFunctionality = true;
 
 
 void settings() {
@@ -28,7 +28,8 @@ void setup() {
 void draw() {
   
   if (testFunctionality){
-    
+    String[] fontList = PFont.list();
+    printArray(fontList);
   } else {
     currentScene.draw();
   }
