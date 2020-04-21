@@ -20,8 +20,27 @@ Command parse(String input) {
 }
 
 Command parseCDCommand(String destination) {
+  if (destination.equals("..")){
+    if (gameScene.roomStack.empty()){
+      return null;
+    }
+    else {
+      Room last = gameScene.roomStack.peek();
+      for (Item i : gameScene.currentRoom.getItems()) {
+        if (i instanceof Door) {
+          Door d = (Door) i;
+          if (d.nextRoom() == last) {
+            gameScene.roomStack.pop();
+            billy.setGoal(d);
+            return Command.CD;
+          }
+        }
+      }
+    }
+  }
   for (Item i : gameScene.currentRoom.getItems()) {
     if (i.label.equals(destination)) {
+      gameScene.roomStack.push(gameScene.currentRoom);
       billy.setGoal(i);
       return Command.CD;
     }

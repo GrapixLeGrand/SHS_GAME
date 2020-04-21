@@ -1,3 +1,5 @@
+
+
 //a scene with a dunjeon and a terminal
 class GameScene extends Scene {
   
@@ -5,12 +7,14 @@ class GameScene extends Scene {
   private Command currentCommand;
   private StringBuilder commandBuilder;
   private String backGroundMusicName = "testMusic2.mp3";
+  public Stack<Room> roomStack;
   
   private Sound bgMusic;
   
   public GameScene() {
     this.currentCommand = null;
     commandBuilder = new StringBuilder();
+    roomStack = new Stack<Room>();
     buildDunjeon();
     bgMusic = new Sound(backGroundMusicName);
     bgMusic.Play();
