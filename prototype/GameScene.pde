@@ -16,11 +16,17 @@ class GameScene extends Scene {
   //font of our game
   private PFont font;
   private final String fontName = "data/pixelFont.vlw";
-  
+  //System.getProperty("user.name")
   private String welcomeMsg = "Welcome @" + System.getProperty("user.name") + ", DummyOS (" 
   + System.getProperty("os.arch") + ") \nProvided By Donald Trump";
   private Queue<Pair<String, Boolean>> printList;
   private ArrayList<Integer> lengthList;
+  private int textSize = 23;
+  
+  private final int textOffsetX = 15;
+  private final int textOffsetY = 30;
+  private final String userName = System.getProperty("user.name");
+  private String currentModifiedCmd = "";
   
   private int numDisplay = 0;
   
@@ -103,17 +109,24 @@ class GameScene extends Scene {
     currentRoom = entrance;
   }
   
-  private final int textOffsetX = 15;
-  private final int textOffsetY = 30;
-  private final String userName = System.getProperty("user.name");
-  private String currentModifiedCmd = "";
+  private float computeWidth(String s) {
+    float res = 0.0f;
+    for (int i = 0; i < s.length(); i ++) {
+      res += textWidth(s.charAt(i));
+    }
+    return res;
+  }
   
   private void drawTerminal() {
     terminal.pushStyle();
     terminal.textFont(font);
-    terminal.textSize(23);
+    terminal.textSize(textSize);
     int i = 0;
-    int j = 0;
+    
+    float luser = textOffsetX;
+    float lat = luser + textSize * "user".length();
+    float lname = lat + textSize;
+    float lcmd = lname + textSize * (userName.length() + 1);
     
     for (Pair<String, Boolean> s : printList) {
       if (s.getValue()) {
@@ -124,55 +137,27 @@ class GameScene extends Scene {
       } else {
         terminal.pushStyle();
         terminal.fill(255, 0, 0);
-        terminal.text("user", textOffsetX, textOffsetY * (++i + 1));
+        terminal.text("user", luser, textOffsetY * (++i + 1));
         terminal.fill(200, 12, 15);
-        terminal.text("@", textOffsetX + userName.length() * 14 /*95*/, textOffsetY * (i + 1));
+        terminal.text("@", lat, textOffsetY * (i + 1));
         terminal.fill(10, 12, 255);
-        terminal.text(userName + ">", textOffsetX + userName.length() * 14 + 25, textOffsetY * (i + 1));
+        terminal.text(userName + ">", lname, textOffsetY * (i + 1));
         terminal.fill(255, 255, 255);
-        terminal.text(s.getKey(), textOffsetX + userName.length() * 14  + 25 + 187, textOffsetY * (i + 1));
+        terminal.text(s.getKey(), lcmd, textOffsetY * (i + 1));
         terminal.popStyle();
       }
     }
-    
-    /*
-    for (Pair<String, Boolean> s : printList) {
-      if (s.getValue()) {
-        //System message (value is true)
-        terminal.text(s.getKey(), textOffsetX, textOffsetY * (i + 1));
-        
-        if (lengthList.get(j) > 1) {
-          //the command is bigger than one line
-          i += lengthList.get(j) - 1;
-        } else {
-          i ++;
-        }
-        
-      } else { 
-        //command message
-        terminal.text("user@" + userName + ">" + s.getKey(), textOffsetX, textOffsetY * (++i + 1));
-      }
-      
-      j ++;
-    }
-    */
     
     terminal.pushStyle();
-        terminal.fill(255, 0, 0);
-        terminal.text("user", textOffsetX, textOffsetY * (++i + 1));
-        terminal.fill(200, 12, 15);
-        terminal.text("@", textOffsetX + userName.length() * 14, textOffsetY * (i + 1));
-        terminal.fill(10, 12, 255);
-        terminal.text(userName + ">", textOffsetX + userName.length() * 14 + 25, textOffsetY * (i + 1));
-        terminal.fill(255, 255, 255);
-        terminal.text(currentModifiedCmd, textOffsetX + userName.length() * 14 + 25 + 187, textOffsetY * (i + 1));
-        terminal.popStyle();
-    
-    
-    //always a command
-    //terminal.text("user@" + userName + ">" + currentModifiedCmd, textOffsetX, textOffsetY * (++i + 1));
-    
-    //terminal.text("user@" + userName + ">" +commandBuilder.toString(), textOffsetX, textOffsetY);
+    terminal.fill(255, 0, 0);
+    terminal.text("user", luser, textOffsetY * (++i + 1));
+    terminal.fill(200, 12, 15);
+    terminal.text("@", lat, textOffsetY * (i + 1));
+    terminal.fill(10, 12, 255);
+    terminal.text(userName + ">", lname, textOffsetY * (i + 1));
+    terminal.fill(255, 255, 255);
+    terminal.text(currentModifiedCmd, lcmd, textOffsetY * (i + 1));
+    terminal.popStyle();
     
     terminal.popStyle();
   }
