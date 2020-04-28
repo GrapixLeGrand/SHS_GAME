@@ -1,6 +1,6 @@
 //different types of commands
 enum Command { 
-  CD;
+  CD, help;
 }
 
 Command parse(String input) {
@@ -15,7 +15,11 @@ Command parse(String input) {
   switch (commandName) {
   case "cd" : 
     return parseCDCommand(arguments);
+  case "help":
+      gameScene.addToDisplay("Tip 1: fend for yourself \nTip2: refer to 1", true);
+      break;
   }
+
   return null;
 }
 

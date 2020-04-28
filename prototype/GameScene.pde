@@ -22,6 +22,8 @@ class GameScene extends Scene {
   private Queue<Pair<String, Boolean>> printList;
   private ArrayList<Integer> lengthList;
   
+  private int numDisplay = 0;
+  
   private Sound bgMusic;
   
   public GameScene() {
@@ -31,7 +33,8 @@ class GameScene extends Scene {
     roomStack = new Stack<Room>();
     buildDunjeon();
     printList = new ArrayDeque();
-    printList.add(new Pair(welcomeMsg, true));
+    addToDisplay(welcomeMsg, true);
+    //printList.add(new Pair(welcomeMsg, true));
     lengthList = new ArrayList(5);
     lengthList.add(2);
     //bgMusic = new Sound(backGroundMusicName);
@@ -114,6 +117,27 @@ class GameScene extends Scene {
     
     for (Pair<String, Boolean> s : printList) {
       if (s.getValue()) {
+        terminal.pushStyle();
+        terminal.fill(0, 255, 0);
+        terminal.text(s.getKey(), textOffsetX, textOffsetY * (++i + 1));
+        terminal.popStyle();
+      } else {
+        terminal.pushStyle();
+        terminal.fill(255, 0, 0);
+        terminal.text("user", textOffsetX, textOffsetY * (++i + 1));
+        terminal.fill(200, 12, 15);
+        terminal.text("@", textOffsetX + 95, textOffsetY * (i + 1));
+        terminal.fill(10, 12, 255);
+        terminal.text(userName + ">", textOffsetX + 96 + 25, textOffsetY * (i + 1));
+        terminal.fill(255, 255, 255);
+        terminal.text(s.getKey(), textOffsetX + 96 + 25 + 187, textOffsetY * (i + 1));
+        terminal.popStyle();
+      }
+    }
+    
+    /*
+    for (Pair<String, Boolean> s : printList) {
+      if (s.getValue()) {
         //System message (value is true)
         terminal.text(s.getKey(), textOffsetX, textOffsetY * (i + 1));
         
@@ -131,13 +155,36 @@ class GameScene extends Scene {
       
       j ++;
     }
+    */
+    
+    terminal.pushStyle();
+        terminal.fill(255, 0, 0);
+        terminal.text("user", textOffsetX, textOffsetY * (++i + 1));
+        terminal.fill(200, 12, 15);
+        terminal.text("@", textOffsetX + 95, textOffsetY * (i + 1));
+        terminal.fill(10, 12, 255);
+        terminal.text(userName + ">", textOffsetX + 96 + 25, textOffsetY * (i + 1));
+        terminal.fill(255, 255, 255);
+        terminal.text(currentModifiedCmd, textOffsetX + 96 + 25 + 187, textOffsetY * (i + 1));
+        terminal.popStyle();
+    
     
     //always a command
-    terminal.text("user@" + userName + ">" + currentModifiedCmd, textOffsetX, textOffsetY * (++i + 1));
+    //terminal.text("user@" + userName + ">" + currentModifiedCmd, textOffsetX, textOffsetY * (++i + 1));
     
     //terminal.text("user@" + userName + ">" +commandBuilder.toString(), textOffsetX, textOffsetY);
     
     terminal.popStyle();
+  }
+  
+  public void addToDisplay(String s, boolean b) {
+    
+    String[] tmp = s.split("\n");
+    
+    numDisplay ++;
+    
+    for (String i : tmp)
+      printList.add(new Pair(new String(i), b));
   }
   
   public void keyPressed() {
@@ -145,6 +192,14 @@ class GameScene extends Scene {
       if (key == ENTER || key == RETURN) {
         String newCommand = commandBuilder.toString().trim();
         
+        addToDisplay(newCommand, false);
+        
+        if (numDisplay > 4) {
+          numDisplay--;
+          printList.poll();
+        }
+        
+        /*
         int length_s = 0;
         //determine the length of the commands 
         for (int i : lengthList) {
@@ -152,18 +207,34 @@ class GameScene extends Scene {
         }
         
         if (length_s > 6) {
-          printList.poll();
           
-          lengthList.clear();
+          /*
+          println("------------------------------------");
+          println("lengthList " + lengthList.toString());
+          int j = 0;
+          for (Pair<String, Boolean> s : printList) {
+            println("--------");
+            println(" --> elem " + j + " : " + s.getKey());
+            println(" --> length = " + lengthList.get(j));
+            println("--------");
+            j ++;
+          }
+          println("------------------------------------");
+          
+          printList.poll();
+          //lengthList.clear();
+        
           
           for (int i = 0; i < lengthList.size() - 1; i ++) {
              lengthList.set(i, lengthList.get(i + 1));
           }
-          if (!lengthList.isEmpty())
-            lengthList.set(lengthList.size(), 0);
+          //if (!lengthList.isEmpty())
+            //lengthList.set(lengthList.size(), 0);
         }
         
-        printList.add(new Pair(newCommand, false));
+        */
+        
+        
         currentModifiedCmd = new String("");
         currentCommand = parse(newCommand);
         commandBuilder = new StringBuilder();

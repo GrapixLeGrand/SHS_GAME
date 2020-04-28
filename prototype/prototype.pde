@@ -28,6 +28,9 @@ void draw() {
   
   if (testFunctionality){
     
+    String[] a = "loubliv\ndwando".split("\n");
+    for (String i : a) 
+      println(i);
     //PFont font;
     //font = loadFont("data/pixelFont.vlw");
     
