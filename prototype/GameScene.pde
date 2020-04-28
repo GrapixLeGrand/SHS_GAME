@@ -126,11 +126,11 @@ class GameScene extends Scene {
         terminal.fill(255, 0, 0);
         terminal.text("user", textOffsetX, textOffsetY * (++i + 1));
         terminal.fill(200, 12, 15);
-        terminal.text("@", textOffsetX + 95, textOffsetY * (i + 1));
+        terminal.text("@", textOffsetX + userName.length() * 14 /*95*/, textOffsetY * (i + 1));
         terminal.fill(10, 12, 255);
-        terminal.text(userName + ">", textOffsetX + 96 + 25, textOffsetY * (i + 1));
+        terminal.text(userName + ">", textOffsetX + userName.length() * 14 + 25, textOffsetY * (i + 1));
         terminal.fill(255, 255, 255);
-        terminal.text(s.getKey(), textOffsetX + 96 + 25 + 187, textOffsetY * (i + 1));
+        terminal.text(s.getKey(), textOffsetX + userName.length() * 14  + 25 + 187, textOffsetY * (i + 1));
         terminal.popStyle();
       }
     }
