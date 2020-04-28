@@ -23,6 +23,8 @@ class GameScene extends Scene {
   private ArrayList<Integer> lengthList;
   private int textSize = 23;
   
+  Queue<String> cmdToAdd;
+  
   private final int textOffsetX = 15;
   private final int textOffsetY = 30;
   private final String userName = System.getProperty("user.name");
@@ -39,6 +41,7 @@ class GameScene extends Scene {
     roomStack = new Stack<Room>();
     buildDunjeon();
     printList = new ArrayDeque();
+    cmdToAdd = new ArrayDeque();
     addToDisplay(welcomeMsg, true);
     //printList.add(new Pair(welcomeMsg, true));
     lengthList = new ArrayList(5);
@@ -56,6 +59,8 @@ class GameScene extends Scene {
   public void draw() {
     
     //bgMusic.update();
+    
+    //println(numDisplay);
     
     if (currentCommand == Command.CD && billy.goalReached()) {
       currentCommand = null;
@@ -162,27 +167,48 @@ class GameScene extends Scene {
     terminal.popStyle();
   }
   
+  public void addToQueue(String s) {
+    cmdToAdd.add(s);
+  }
+  
   public void addToDisplay(String s, boolean b) {
     
     String[] tmp = s.split("\n");
     
-    numDisplay ++;
     
-    for (String i : tmp)
+    
+    for (String i : tmp) {
       printList.add(new Pair(new String(i), b));
+      numDisplay ++;
+    }
+  }
+  
+  void manageAddedCommands() {
+    
+    for (String s : cmdToAdd) {
+          addToDisplay(s, true);
+        }
+        
+        cmdToAdd.clear();
+        
+        if (numDisplay > 4) {
+          while(numDisplay > 4) {
+            numDisplay--;
+            printList.poll();
+          }
+        }
+        
   }
   
   public void keyPressed() {
     if (currentCommand == null) {
       if (key == ENTER || key == RETURN) {
+        println("b");
         String newCommand = commandBuilder.toString().trim();
         
         addToDisplay(newCommand, false);
         
-        if (numDisplay > 4) {
-          numDisplay--;
-          printList.poll();
-        }
+        manageAddedCommands();
         
         currentModifiedCmd = new String("");
         currentCommand = parse(newCommand);
