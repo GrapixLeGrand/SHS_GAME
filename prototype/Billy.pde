@@ -3,21 +3,25 @@ class Billy extends Actor {
   
   private PVector position;
   private Timer t;
-  private PImage frame1;
-  private PImage frame2;
-  private PImage frameShown;
-  private int direction = 1;
+  private PImage[] frames;
+  private int frameShown;
+  //private int direction = 1;
   private float velocity = 10f;
   private Item goal;
   private boolean goalReached;
   private Door doorToOpen;
+  private String dataPath = "data/Billy/Walk";
+  private String frontPath = dataPath + "/Billy_front_walk";
   
   public Billy(PVector origin) {
     this.position = origin;
     this.goal = null;
-    this.frame1 = loadImage("frame1.png");
-    this.frame2 = loadImage("frame2.png");
-    this.frameShown = frame1;
+    frames = new PImage[4];
+    frames[0] = loadImage(frontPath+"/Billy_front_walk-1.png");
+    frames[1] = loadImage(frontPath+"/Billy_front_walk-2.png");
+    frames[2] = loadImage(frontPath+"/Billy_front_walk-3.png");
+    frames[3] = loadImage(frontPath+"/Billy_front_walk-4.png");
+    this.frameShown = 0;
     this.t = new Timer();
     t.start();
   }
@@ -25,8 +29,9 @@ class Billy extends Actor {
   public void render() {
     dunjeon.pushMatrix();
     dunjeon.translate(position.x, position.y);
-    dunjeon.scale(direction/2., 0.5);
-    dunjeon.image(frameShown, - frameShown.width / 2, - frameShown.height/ 2);
+    //dunjeon.scale(direction/2., 0.5);
+    dunjeon.scale(2);
+    dunjeon.image(frames[frameShown], - (frames[frameShown]).width / 2, - (frames[frameShown]).height/ 2);
     dunjeon.popMatrix();
   }
   
@@ -48,11 +53,7 @@ class Billy extends Actor {
     
     t.update();
     if (t.getValue() > 400) {
-      if (frameShown == frame1) 
-        frameShown = frame2;
-      else 
-        frameShown = frame1;
-        
+      frameShown = (frameShown + 1) % 4;
       t.restart();
     }
   }
@@ -65,10 +66,10 @@ class Billy extends Actor {
     }
       
     if (position.x < goal.position.x) {
-      direction = 1;
+      //direction = 1;
       position.x += velocity;
     } else if (position.x > goal.position.x) {
-      direction = -1;
+      //direction = -1;
       position.x -= velocity;
     }
   }
