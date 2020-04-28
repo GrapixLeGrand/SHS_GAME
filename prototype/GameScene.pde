@@ -184,42 +184,6 @@ class GameScene extends Scene {
           printList.poll();
         }
         
-        /*
-        int length_s = 0;
-        //determine the length of the commands 
-        for (int i : lengthList) {
-          length_s += i;
-        }
-        
-        if (length_s > 6) {
-          
-          /*
-          println("------------------------------------");
-          println("lengthList " + lengthList.toString());
-          int j = 0;
-          for (Pair<String, Boolean> s : printList) {
-            println("--------");
-            println(" --> elem " + j + " : " + s.getKey());
-            println(" --> length = " + lengthList.get(j));
-            println("--------");
-            j ++;
-          }
-          println("------------------------------------");
-          
-          printList.poll();
-          //lengthList.clear();
-        
-          
-          for (int i = 0; i < lengthList.size() - 1; i ++) {
-             lengthList.set(i, lengthList.get(i + 1));
-          }
-          //if (!lengthList.isEmpty())
-            //lengthList.set(lengthList.size(), 0);
-        }
-        
-        */
-        
-        
         currentModifiedCmd = new String("");
         currentCommand = parse(newCommand);
         commandBuilder = new StringBuilder();
