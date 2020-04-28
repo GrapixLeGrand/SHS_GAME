@@ -2,6 +2,7 @@
 import java.util.Properties;
 import javafx.util.Pair;
 
+
 //a scene with a dunjeon and a terminal
 class GameScene extends Scene {
   
@@ -16,8 +17,10 @@ class GameScene extends Scene {
   private PFont font;
   private final String fontName = "data/pixelFont.vlw";
   
-  private String welcomeMsg = "Welcome @" + System.getProperty("user.name");
+  private String welcomeMsg = "Welcome @" + System.getProperty("user.name") + ", DummyOS (" 
+  + System.getProperty("os.arch") + ") \nProvided By Donald Trump";
   private Queue<Pair<String, Boolean>> printList;
+  private ArrayList<Integer> lengthList;
   
   private Sound bgMusic;
   
@@ -29,6 +32,8 @@ class GameScene extends Scene {
     buildDunjeon();
     printList = new ArrayDeque();
     printList.add(new Pair(welcomeMsg, true));
+    lengthList = new ArrayList(5);
+    lengthList.add(2);
     //bgMusic = new Sound(backGroundMusicName);
     //bgMusic.Play();
     //make the music comes progressively during 10 secs
@@ -105,17 +110,29 @@ class GameScene extends Scene {
     terminal.textFont(font);
     terminal.textSize(23);
     int i = 0;
+    int j = 0;
     
     for (Pair<String, Boolean> s : printList) {
       if (s.getValue()) {
         //System message (value is true)
-        terminal.text(s.getKey(), textOffsetX, textOffsetY * (++i + 1));
+        terminal.text(s.getKey(), textOffsetX, textOffsetY * (i + 1));
+        
+        if (lengthList.get(j) > 1) {
+          //the command is bigger than one line
+          i += lengthList.get(j) - 1;
+        } else {
+          i ++;
+        }
+        
       } else { 
         //command message
-        terminal.text("user@" + userName + ">" + s, textOffsetX, textOffsetY * (++i + 1));
+        terminal.text("user@" + userName + ">" + s.getKey(), textOffsetX, textOffsetY * (++i + 1));
       }
+      
+      j ++;
     }
     
+    //always a command
     terminal.text("user@" + userName + ">" + currentModifiedCmd, textOffsetX, textOffsetY * (++i + 1));
     
     //terminal.text("user@" + userName + ">" +commandBuilder.toString(), textOffsetX, textOffsetY);
@@ -128,11 +145,25 @@ class GameScene extends Scene {
       if (key == ENTER || key == RETURN) {
         String newCommand = commandBuilder.toString().trim();
         
-        if (printList.size() > 4) {
-          printList.poll();
+        int length_s = 0;
+        //determine the length of the commands 
+        for (int i : lengthList) {
+          length_s += i;
         }
         
-        printList.add(newCommand);
+        if (length_s > 6) {
+          printList.poll();
+          
+          lengthList.clear();
+          
+          for (int i = 0; i < lengthList.size() - 1; i ++) {
+             lengthList.set(i, lengthList.get(i + 1));
+          }
+          if (!lengthList.isEmpty())
+            lengthList.set(lengthList.size(), 0);
+        }
+        
+        printList.add(new Pair(newCommand, false));
         currentModifiedCmd = new String("");
         currentCommand = parse(newCommand);
         commandBuilder = new StringBuilder();
@@ -144,6 +175,7 @@ class GameScene extends Scene {
       else if (key!=CODED && key!=BACKSPACE && key!=RETURN && key!=ESC && key!=DELETE) {
         commandBuilder.append(key);
         currentModifiedCmd = new String(commandBuilder.toString());
+        lengthList.add(1);
       }
     }
   }
