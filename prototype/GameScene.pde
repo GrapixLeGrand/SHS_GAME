@@ -1,30 +1,47 @@
 
+import java.util.Properties;
+import javafx.util.Pair;
 
 //a scene with a dunjeon and a terminal
 class GameScene extends Scene {
   
+  PGraphics terminal;
   public Room currentRoom;
   private Command currentCommand;
   private StringBuilder commandBuilder;
-  private String backGroundMusicName = "testMusic2.mp3";
+  private String backGroundMusicName = "data/proto.mpeg";
   public Stack<Room> roomStack;
+  
+  //font of our game
+  private PFont font;
+  private final String fontName = "data/pixelFont.vlw";
+  
+  private String welcomeMsg = "Welcome @" + System.getProperty("user.name");
+  private Queue<Pair<String, Boolean>> printList;
   
   private Sound bgMusic;
   
   public GameScene() {
+    terminal = createGraphics(width, height/4);
     this.currentCommand = null;
     commandBuilder = new StringBuilder();
     roomStack = new Stack<Room>();
     buildDunjeon();
-    bgMusic = new Sound(backGroundMusicName);
-    bgMusic.Play();
+    printList = new ArrayDeque();
+    printList.add(new Pair(welcomeMsg, true));
+    //bgMusic = new Sound(backGroundMusicName);
+    //bgMusic.Play();
     //make the music comes progressively during 10 secs
-    bgMusic.setAmpWithDuration(0.0, 0.5, 10000);
+    //bgMusic.setAmpWithDuration(0.0, 0.5, 10000);
+    
+    font = loadFont(fontName);
+    
+    
   }
   
   public void draw() {
     
-    bgMusic.update();
+    //bgMusic.update();
     
     if (currentCommand == Command.CD && billy.goalReached()) {
       currentCommand = null;
@@ -78,22 +95,55 @@ class GameScene extends Scene {
     currentRoom = entrance;
   }
   
+  private final int textOffsetX = 15;
+  private final int textOffsetY = 30;
+  private final String userName = System.getProperty("user.name");
+  private String currentModifiedCmd = "";
+  
   private void drawTerminal() {
-    terminal.text(commandBuilder.toString(), 10, 10);
+    terminal.pushStyle();
+    terminal.textFont(font);
+    terminal.textSize(23);
+    int i = 0;
+    
+    for (Pair<String, Boolean> s : printList) {
+      if (s.getValue()) {
+        //System message (value is true)
+        terminal.text(s.getKey(), textOffsetX, textOffsetY * (++i + 1));
+      } else { 
+        //command message
+        terminal.text("user@" + userName + ">" + s, textOffsetX, textOffsetY * (++i + 1));
+      }
+    }
+    
+    terminal.text("user@" + userName + ">" + currentModifiedCmd, textOffsetX, textOffsetY * (++i + 1));
+    
+    //terminal.text("user@" + userName + ">" +commandBuilder.toString(), textOffsetX, textOffsetY);
+    
+    terminal.popStyle();
   }
   
   public void keyPressed() {
     if (currentCommand == null) {
       if (key == ENTER || key == RETURN) {
         String newCommand = commandBuilder.toString().trim();
+        
+        if (printList.size() > 4) {
+          printList.poll();
+        }
+        
+        printList.add(newCommand);
+        currentModifiedCmd = new String("");
         currentCommand = parse(newCommand);
         commandBuilder = new StringBuilder();
       }
       else if (key == BACKSPACE && commandBuilder.length() > 0) {
         commandBuilder.deleteCharAt(commandBuilder.length() - 1);
+        currentModifiedCmd = new String(commandBuilder.toString());
       }
       else if (key!=CODED && key!=BACKSPACE && key!=RETURN && key!=ESC && key!=DELETE) {
         commandBuilder.append(key);
+        currentModifiedCmd = new String(commandBuilder.toString());
       }
     }
   }

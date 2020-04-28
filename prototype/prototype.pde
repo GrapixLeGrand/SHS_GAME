@@ -4,13 +4,13 @@ GameScene gameScene;
 Scene currentScene;
 float dt;
 PGraphics dunjeon;
-PGraphics terminal;
+
 Billy billy;
 
 //global variable for the sound
 final PApplet application = this;
 
-boolean testFunctionality = true;
+boolean testFunctionality = false;
 
 
 void settings() {
@@ -19,7 +19,6 @@ void settings() {
 
 void setup() {
   dunjeon = createGraphics(height*3/4, height*3/4);
-  terminal = createGraphics(width, height/4);
   billy = new Billy(new PVector(dunjeon.width/2, dunjeon.height/2));
   gameScene = new GameScene();
   currentScene = gameScene;
@@ -29,8 +28,8 @@ void draw() {
   
   if (testFunctionality){
     
-    PFont font;
-    font = loadFont("font.ttf");
+    //PFont font;
+    //font = loadFont("data/pixelFont.vlw");
     
   } else {
     currentScene.draw();
