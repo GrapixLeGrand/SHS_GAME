@@ -39,32 +39,33 @@ public class Door extends Item {
   }
   
   public void render() {
+    dunjeon.pushStyle();
     dunjeon.textAlign(CENTER, TOP);
+    dunjeon.textFont(font);
+    dunjeon.textSize(20);
     switch (cardinalPosition) {
       case NORTH : 
-        drawDoor(new PVector(0, 0), 0);
+        drawDoor(new PVector(DOOR_WIDTH / 2, 0), 0);
         //dunjeon.image(sprite, dunjeon.width/2-DOOR_WIDTH/2, 0);
-        dunjeon.text(label, dunjeon.width/2 - DOOR_WIDTH/2, 0);
+        dunjeon.text(label, dunjeon.width/2, DOOR_HEIGHT + 10);
         break;
       case EAST :
-        drawDoor(new PVector(dunjeon.width, 0), PI / 2);
+        drawDoor(new PVector(dunjeon.width, DOOR_WIDTH/2), PI / 2);
         dunjeon.textAlign(RIGHT, TOP);
-        //dunjeon.image(sprite, dunjeon.width-DOOR_WIDTH, dunjeon.height/2 - DOOR_HEIGHT/2);
-        dunjeon.text(label, dunjeon.width - DOOR_WIDTH/2, dunjeon.height/2 - DOOR_HEIGHT/2);
+        dunjeon.text(label, dunjeon.width - (DOOR_HEIGHT - 10), dunjeon.height/2 - DOOR_HEIGHT/2);
         break;
       case WEST :
-        drawDoor(new PVector(dunjeon.width, dunjeon.height), PI);
+        drawDoor(new PVector(0, dunjeon.height - DOOR_WIDTH/2), - PI / 2);
         dunjeon.textAlign(LEFT, TOP);
-        //dunjeon.image(sprite, 0, dunjeon.height/2 - DOOR_HEIGHT/2);
-        dunjeon.text(label, 0, dunjeon.height/2 - DOOR_HEIGHT/2);
+        dunjeon.text(label, DOOR_HEIGHT + 10, dunjeon.height/2 - DOOR_HEIGHT/2);
         break;
       case SOUTH :
-        drawDoor(new PVector(0, dunjeon.height),  3 * PI / 2);
+        drawDoor(new PVector(dunjeon.width - DOOR_WIDTH/2 , dunjeon.height), PI);
         dunjeon.textAlign(CENTER, BOTTOM);
-        //dunjeon.image(sprite, dunjeon.width/2-DOOR_WIDTH/2, dunjeon.height - DOOR_HEIGHT);
-        dunjeon.text(label, dunjeon.width/2 - DOOR_WIDTH/2, dunjeon.height);
+        dunjeon.text(label, dunjeon.width/2, dunjeon.height - (DOOR_HEIGHT + 10));
         break;
     }
+    dunjeon.popStyle();
     
   }
   
@@ -84,10 +85,10 @@ public class Door extends Item {
 //convert a cardinal value (north, south...) in a position in a the scene)
 public PVector cardinalToCoordinates(Position p){
   switch(p) {
-      case NORTH : return new PVector(dunjeon.width/2, DOOR_HEIGHT/2);
-      case SOUTH : return new PVector(dunjeon.width/2, dunjeon.height - DOOR_HEIGHT/2);
-      case EAST: return new PVector(dunjeon.width - DOOR_WIDTH/2, dunjeon.height/2);
-      case WEST: return new PVector(DOOR_WIDTH/2, dunjeon.height/2);
+      case NORTH : return new PVector(dunjeon.width/2, DOOR_HEIGHT/2 + 10);
+      case SOUTH : return new PVector(dunjeon.width/2, dunjeon.height - (DOOR_HEIGHT/2 + 10));
+      case EAST: return new PVector(dunjeon.width - (DOOR_HEIGHT/2 + 10), dunjeon.height/2);
+      case WEST: return new PVector(DOOR_HEIGHT/2 + 10, dunjeon.height/2);
     }
     return null;
 }

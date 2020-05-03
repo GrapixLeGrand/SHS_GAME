@@ -2,7 +2,6 @@
 import java.util.Properties;
 import javafx.util.Pair;
 
-
 //a scene with a dunjeon and a terminal
 class GameScene extends Scene {
   
@@ -14,9 +13,6 @@ class GameScene extends Scene {
   public Stack<Room> roomStack;
   
   //font of our game
-  private PFont font;
-  private final String fontName = "data/pixelFont.vlw";
-  //System.getProperty("user.name")
   private String welcomeMsg = "Welcome @" + System.getProperty("user.name") + ", DummyOS (" 
   + System.getProperty("os.arch") + ") \nProvided By Donald Trump";
   private Queue<Pair<String, Boolean>> printList;
@@ -43,7 +39,6 @@ class GameScene extends Scene {
     printList = new ArrayDeque();
     cmdToAdd = new ArrayDeque();
     addToDisplay(welcomeMsg, true);
-    //printList.add(new Pair(welcomeMsg, true));
     lengthList = new ArrayList(5);
     lengthList.add(2);
     //bgMusic = new Sound(backGroundMusicName);
@@ -51,16 +46,12 @@ class GameScene extends Scene {
     //make the music comes progressively during 10 secs
     //bgMusic.setAmpWithDuration(0.0, 0.5, 10000);
     
-    font = loadFont(fontName);
-    
     
   }
   
   public void draw() {
     
     //bgMusic.update();
-    
-    //println(numDisplay);
     
     if (currentCommand == Command.CD && billy.goalReached()) {
       currentCommand = null;
