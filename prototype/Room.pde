@@ -5,13 +5,13 @@ class Room extends Actor {
   private String name;
   private PImage background;
   
-  private Wall w;
+  private Walls walls;
   
   Room(String name, String backgroundUrl) {
     this.name = name;
     this.background = loadImage(backgroundUrl);
     this.items = new ArrayList<Item>();
-    w = new Wall("data/Background/Wall_circuit.png", Position.NORTH, new PVector(0,0));
+    walls = new Walls();
   }
   
   public void addItem(Item item) {
@@ -19,6 +19,7 @@ class Room extends Actor {
   }
   
   public void update(){
+    walls.update();
     for (Item i : items) {
       i.update();
     }
@@ -37,7 +38,7 @@ class Room extends Actor {
       i.render();
     }
     
-     w.render();
+     walls.render();
   }
   
   public String getName() {
