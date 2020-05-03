@@ -5,10 +5,13 @@ class Room extends Actor {
   private String name;
   private PImage background;
   
+  private Wall w;
+  
   Room(String name, String backgroundUrl) {
     this.name = name;
     this.background = loadImage(backgroundUrl);
     this.items = new ArrayList<Item>();
+    w = new Wall("data/Background/Wall_circuit.png", Position.NORTH, new PVector(0,0));
   }
   
   public void addItem(Item item) {
@@ -24,9 +27,17 @@ class Room extends Actor {
   public void render() {
     this.background.resize(dunjeon.width, dunjeon.height);
     dunjeon.image(background, 0, 0);
+    
+    /*
+     * here we draw the walls
+    */
+   
+    
     for (Item i : items) {
       i.render();
     }
+    
+     w.render();
   }
   
   public String getName() {

@@ -114,20 +114,11 @@ class GameScene extends Scene {
     currentRoom = entrance;
   }
   
-  private float computeWidth(String s) {
-    float res = 0.0f;
-    for (int i = 0; i < s.length(); i ++) {
-      res += textWidth(s.charAt(i));
-    }
-    return res;
-  }
-  
   private void drawTerminal() {
     terminal.pushStyle();
     terminal.textFont(font);
     terminal.textSize(textSize);
     int i = 0;
-    
     float luser = textOffsetX;
     float lat = luser + textSize * "user".length();
     float lname = lat + textSize;
@@ -175,8 +166,6 @@ class GameScene extends Scene {
     
     String[] tmp = s.split("\n");
     
-    
-    
     for (String i : tmp) {
       printList.add(new Pair(new String(i), b));
       numDisplay ++;
@@ -203,13 +192,9 @@ class GameScene extends Scene {
   public void keyPressed() {
     if (currentCommand == null) {
       if (key == ENTER || key == RETURN) {
-        println("b");
         String newCommand = commandBuilder.toString().trim();
-        
         addToDisplay(newCommand, false);
-        
         manageAddedCommands();
-        
         currentModifiedCmd = new String("");
         currentCommand = parse(newCommand);
         commandBuilder = new StringBuilder();

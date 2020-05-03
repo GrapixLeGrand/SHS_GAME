@@ -8,6 +8,7 @@ public class Door extends Item {
   private Sound doorSound;
   private String doorSoundPath = "door.mp3";
   
+  
   private Room nextRoom;
   public Position cardinalPosition;
   
@@ -63,7 +64,7 @@ public class Door extends Item {
 }
 
 
-public enum Position {NORTH, EAST, SOUTH, WEST;}
+
 
 //convert a cardinal value (north, south...) in a position in a the scene)
 public PVector cardinalToCoordinates(Position p){
