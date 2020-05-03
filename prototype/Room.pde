@@ -29,16 +29,12 @@ class Room extends Actor {
     this.background.resize(dunjeon.width, dunjeon.height);
     dunjeon.image(background, 0, 0);
     
-    /*
-     * here we draw the walls
-    */
-   
+    walls.render();
     
     for (Item i : items) {
       i.render();
     }
     
-     walls.render();
   }
   
   public String getName() {
