@@ -1,6 +1,6 @@
 //different types of commands
 enum Command { 
-  CD, help;
+  CD, help, git;
 }
 
 Command parse(String input) {
@@ -16,7 +16,26 @@ Command parse(String input) {
   case "cd" : 
     return parseCDCommand(arguments);
   case "help":
-      gameScene.addToDisplay("Tip 1: fend for yourself \nTip2: refer to 1", true);
+  println("a");
+      gameScene.addToQueue("Tip 1: fend for yourself \nTip2: refer to 1");
+      //cmdToAdd.add("Tip 1: fend for yourself \nTip2: refer to 1");
+      //gameScene.addToDisplay("Tip 1: fend for yourself \nTip2: refer to 1", true);
+      gameScene.manageAddedCommands();
+      break;
+  case "exit":
+      gameScene.addToQueue("The only exit is death");
+      gameScene.manageAddedCommands();
+      //gameScene.addToDisplay("The only exit is death", true);
+      break;
+     case "pegi --set 18":
+      gameScene.addToQueue("Hold on ! You're too young for that !");
+      gameScene.manageAddedCommands();
+      //gameScene.addToDisplay("The only exit is death", true);
+      break;
+  case "sudo":
+      gameScene.addToQueue("Unknown command ! \n Do you mean \"Sudoku\"?");
+      gameScene.manageAddedCommands();
+      //gameScene.addToDisplay("The only exit is death", true);
       break;
   }
 

@@ -2,7 +2,6 @@
 import java.util.Properties;
 import javafx.util.Pair;
 
-
 //a scene with a dunjeon and a terminal
 class GameScene extends Scene {
   
@@ -14,14 +13,13 @@ class GameScene extends Scene {
   public Stack<Room> roomStack;
   
   //font of our game
-  private PFont font;
-  private final String fontName = "data/pixelFont.vlw";
-  //System.getProperty("user.name")
   private String welcomeMsg = "Welcome @" + System.getProperty("user.name") + ", DummyOS (" 
   + System.getProperty("os.arch") + ") \nProvided By Donald Trump";
   private Queue<Pair<String, Boolean>> printList;
   private ArrayList<Integer> lengthList;
   private int textSize = 23;
+  
+  Queue<String> cmdToAdd;
   
   private final int textOffsetX = 15;
   private final int textOffsetY = 30;
@@ -39,16 +37,14 @@ class GameScene extends Scene {
     roomStack = new Stack<Room>();
     buildDunjeon();
     printList = new ArrayDeque();
+    cmdToAdd = new ArrayDeque();
     addToDisplay(welcomeMsg, true);
-    //printList.add(new Pair(welcomeMsg, true));
     lengthList = new ArrayList(5);
     lengthList.add(2);
     //bgMusic = new Sound(backGroundMusicName);
     //bgMusic.Play();
     //make the music comes progressively during 10 secs
     //bgMusic.setAmpWithDuration(0.0, 0.5, 10000);
-    
-    font = loadFont(fontName);
     
     
   }
@@ -109,20 +105,11 @@ class GameScene extends Scene {
     currentRoom = entrance;
   }
   
-  private float computeWidth(String s) {
-    float res = 0.0f;
-    for (int i = 0; i < s.length(); i ++) {
-      res += textWidth(s.charAt(i));
-    }
-    return res;
-  }
-  
   private void drawTerminal() {
     terminal.pushStyle();
     terminal.textFont(font);
     terminal.textSize(textSize);
     int i = 0;
-    
     float luser = textOffsetX;
     float lat = luser + textSize * "user".length();
     float lname = lat + textSize;
@@ -162,64 +149,43 @@ class GameScene extends Scene {
     terminal.popStyle();
   }
   
+  public void addToQueue(String s) {
+    cmdToAdd.add(s);
+  }
+  
   public void addToDisplay(String s, boolean b) {
     
     String[] tmp = s.split("\n");
     
-    numDisplay ++;
-    
-    for (String i : tmp)
+    for (String i : tmp) {
       printList.add(new Pair(new String(i), b));
+      numDisplay ++;
+    }
+  }
+  
+  void manageAddedCommands() {
+    
+    for (String s : cmdToAdd) {
+          addToDisplay(s, true);
+        }
+        
+        cmdToAdd.clear();
+        
+        if (numDisplay > 4) {
+          while(numDisplay > 4) {
+            numDisplay--;
+            printList.poll();
+          }
+        }
+        
   }
   
   public void keyPressed() {
     if (currentCommand == null) {
       if (key == ENTER || key == RETURN) {
         String newCommand = commandBuilder.toString().trim();
-        
         addToDisplay(newCommand, false);
-        
-        if (numDisplay > 4) {
-          numDisplay--;
-          printList.poll();
-        }
-        
-        /*
-        int length_s = 0;
-        //determine the length of the commands 
-        for (int i : lengthList) {
-          length_s += i;
-        }
-        
-        if (length_s > 6) {
-          
-          /*
-          println("------------------------------------");
-          println("lengthList " + lengthList.toString());
-          int j = 0;
-          for (Pair<String, Boolean> s : printList) {
-            println("--------");
-            println(" --> elem " + j + " : " + s.getKey());
-            println(" --> length = " + lengthList.get(j));
-            println("--------");
-            j ++;
-          }
-          println("------------------------------------");
-          
-          printList.poll();
-          //lengthList.clear();
-        
-          
-          for (int i = 0; i < lengthList.size() - 1; i ++) {
-             lengthList.set(i, lengthList.get(i + 1));
-          }
-          //if (!lengthList.isEmpty())
-            //lengthList.set(lengthList.size(), 0);
-        }
-        
-        */
-        
-        
+        manageAddedCommands();
         currentModifiedCmd = new String("");
         currentCommand = parse(newCommand);
         commandBuilder = new StringBuilder();

@@ -1,4 +1,11 @@
 
+
+public enum Position {NORTH, EAST, SOUTH, WEST;}
+
+final int WALL_UNIT_WIDTH = 50;
+final int WALL_UNIT_HEIGHT = 75;
+
+
 //what is currently happening in the game
 abstract class Scene {
   abstract void draw();
