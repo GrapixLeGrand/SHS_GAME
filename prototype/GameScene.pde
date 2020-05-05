@@ -36,7 +36,7 @@ class GameScene extends Scene {
     terminal = createGraphics(width, height/4);
     commandBuilder = new StringBuilder();
     roomStack = new Stack<Room>();
-    malwen = new Malwen(new PVector(width / 2, height / 2));
+    malwen = new Malwen(new PVector(90, height / 2), new PVector(90, height / 2));
     buildDunjeon();
     printList = new ArrayDeque();
     cmdToAdd = new ArrayDeque();
@@ -107,8 +107,9 @@ class GameScene extends Scene {
     File test = new File(new PVector(dunjeon.width/4, dunjeon.height/4), "file", "Hello, world!");
     fileRoom.addItem(test);
     
-    malwen.addRoomAndText(nextRoom, "Salut poilu");
-    malwen.addRoomAndText(entrance, "Bienvenu chez ta mère");
+    malwen.addRoomAndText(captchaRoom, "Dis a cet abruti  \n que tu n'es pas un robot !");
+    malwen.addRoomAndText(entrance, "Salut Billy ! Je suis ton amie ! \n Pour cahnger de salle : cd \n pour parler : echo");
+    malwen.addRoomAndText(nextRoom, "Bien joué Mouhahahaha ! \nJE SUIS LIBREEEE !");
     
     currentRoom = entrance;
   }
