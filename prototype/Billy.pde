@@ -49,6 +49,12 @@ class Billy extends Actor {
           gameScene.currentRoom = doorToOpen.nextRoom();
           setPosition(cardinalToCoordinates(Position.values()[(doorToOpen.cardinalPosition.ordinal() + 2)%4]));
         }
+        else if (goal instanceof Collectible) {
+          Collectible c = (Collectible) goal;
+          c.available = false;
+          Door d = doorMap.get(c);
+          d.unlockDoor();
+        }
         goal = null;
       }
     }

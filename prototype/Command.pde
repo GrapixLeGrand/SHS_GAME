@@ -71,7 +71,12 @@ void parseCDCommand(String destination) {
   for (Item i : gameScene.currentRoom.getItems()) {
     if (i.label.equals(destination)) {
       if (i instanceof Collectible && !((Collectible) i).available) {
-        break;
+        return;
+      }
+      if (i instanceof Door && ((Door) i).locked()) {
+        gameScene.addToQueue("This door is locked, you need to find a key to open it");
+        gameScene.manageAddedCommands();
+        return;
       }
       gameScene.roomStack.push(gameScene.currentRoom);
       billy.setGoal(i);

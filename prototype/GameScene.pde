@@ -20,6 +20,8 @@ class GameScene extends Scene {
   
   Queue<String> cmdToAdd;
   
+  Map<Collectible, Door> doorMap;
+  
   private final int textOffsetX = 15;
   private final int textOffsetY = 20;
   private final String userName = System.getProperty("user.name");
@@ -33,6 +35,7 @@ class GameScene extends Scene {
     terminal = createGraphics(width, height/4);
     commandBuilder = new StringBuilder();
     roomStack = new Stack<Room>();
+    
     buildDunjeon();
     printList = new ArrayDeque();
     cmdToAdd = new ArrayDeque();
@@ -72,6 +75,8 @@ class GameScene extends Scene {
   }
   
   private void buildDunjeon() {
+    initDoorSprites();
+    
     Room entrance = new Room("entrance", "room.png");
     Room roomA = new Room("room a", "room.png");
     Room roomB = new Room("room b", "room.png");
@@ -81,8 +86,9 @@ class GameScene extends Scene {
     Captcha testPnj = new Captcha(new PVector(dunjeon.width/4, dunjeon.height/4));
     Collectible testKey = new Collectible(new PVector(dunjeon.width/4, dunjeon.height/2), "key", "data/Background/Doors/Wall_door_open.png");
     entrance.addItem(door1);
-    entrance.addItem(testPnj);
+    door1.lockDoor(testKey);
     entrance.addItem(testKey);
+    entrance.addItem(testPnj);
     entrance.addItem(test);
     Door door2 = new Door(Position.SOUTH, entrance);
     roomB.addItem(door2);

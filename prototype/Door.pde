@@ -1,24 +1,38 @@
 final int DOOR_WIDTH = 50;
 final int DOOR_HEIGHT = 75;
 
+Sprite openDoorSprite;
+Sprite closedDoorSprite;
+
+Map<Collectible, Door> doorMap = new HashMap();
+
+void initDoorSprites() {
+  PImage tmp = loadImage("data/Background/Doors/Wall_door_open.png");
+  tmp.resize(DOOR_WIDTH, DOOR_HEIGHT);
+  openDoorSprite = new Sprite(tmp);
+  PImage tmp2 = loadImage("data/Background/Doors/Wall_door_closed.png");
+  tmp2.resize(DOOR_WIDTH, DOOR_HEIGHT);
+  closedDoorSprite = new Sprite(tmp2);
+}
+
 //a door leading to another room
 public class Door extends Item {
   
   //added sound to door
   private Sound doorSound;
   private String doorSoundPath = "door.mp3";
-  private String openDoorPath = "data/Background/Doors/Wall_door_open.png";
   private Sprite doorSprite;
   private Room nextRoom;
   public Position cardinalPosition;
   
+  private boolean locked;
+  
   public Door(Position position, Room room) {
-    PImage tmp = loadImage(openDoorPath);
-    tmp.resize(DOOR_WIDTH, DOOR_HEIGHT);
-    this.doorSprite = new Sprite(tmp);
+    this.doorSprite = openDoorSprite;
     this.cardinalPosition = position;
     this.nextRoom = room;
     this.label = nextRoom.getName();
+    this.locked = false;
     
     this.position = cardinalToCoordinates(position);
     
@@ -75,6 +89,21 @@ public class Door extends Item {
   
   public void makeSound() {
     doorSound.Play();
+  }
+  
+  public boolean locked() {
+    return locked;
+  }
+  
+  public void lockDoor(Collectible doorKey) {
+    doorMap.put(doorKey, this);
+    locked = true;
+    doorSprite = closedDoorSprite;
+  }
+  
+  public void unlockDoor() {
+    locked = false;
+    doorSprite = openDoorSprite;
   }
   
 }
