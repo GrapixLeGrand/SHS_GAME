@@ -15,7 +15,17 @@ PFont font;
 
 boolean testFunctionality = false;
 
+ArrayList<PImage> wallFanSprites;
+PImage wallSimpleSprite;
+PImage wallCircuitSprite;
 
+String[] fanSpritesUrl = {
+    "data/Background/Wall_2_fan/Wall_2_1_fan.png", 
+    "data/Background/Wall_2_fan/Wall_2_2_fan.png", 
+    "data/Background/Wall_2_fan/Wall_2_3_fan.png", 
+    "data/Background/Wall_2_fan/Wall_2_4_fan.png", 
+  };
+  
 void settings() {
   size(1000, 1000, P2D);
   
@@ -23,6 +33,7 @@ void settings() {
 
 void setup() {
   frameRate(30);
+  initRessources();
   font = loadFont("data/pixelFont.vlw");
   dunjeon = createGraphics(height*3/4, height*3/4);
   billy = new Billy(new PVector(dunjeon.width/2, dunjeon.height/2));
@@ -47,4 +58,21 @@ void draw() {
 
 void keyPressed() {
   currentScene.keyPressed();
+}
+
+void initRessources() {
+  //load the different images, only one time
+  wallSimpleSprite = loadImage("data/Background/Wall_simple.png");
+  wallCircuitSprite = loadImage("data/Background/Wall_circuit.png");
+  wallSimpleSprite.resize(DOOR_WIDTH, DOOR_HEIGHT);
+  wallCircuitSprite.resize(DOOR_WIDTH, DOOR_HEIGHT);
+  wallFanSprites = new ArrayList();
+  wallFanSprites.add(loadImage("data/Background/Wall_2_fan/Wall_2_1_fan.png"));
+  wallFanSprites.add(loadImage("data/Background/Wall_2_fan/Wall_2_2_fan.png"));
+  wallFanSprites.add(loadImage("data/Background/Wall_2_fan/Wall_2_3_fan.png"));
+  wallFanSprites.add(loadImage("data/Background/Wall_2_fan/Wall_2_4_fan.png"));
+  
+  for (PImage img : wallFanSprites) {
+      img.resize(DOOR_WIDTH, DOOR_HEIGHT);
+  }
 }
