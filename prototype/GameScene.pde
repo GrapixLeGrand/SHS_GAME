@@ -8,7 +8,7 @@ class GameScene extends Scene {
   PGraphics terminal;
   public Room currentRoom;
   private StringBuilder commandBuilder;
-  private String backGroundMusicName = "data/sound/proto.mpeg";
+  private String backGroundMusicName = "data/sound/proto.wav";
   public Stack<Room> roomStack;
   
   //font of our game
@@ -43,18 +43,16 @@ class GameScene extends Scene {
     addToDisplay(welcomeMsg, true);
     lengthList = new ArrayList(5);
     lengthList.add(2);
-    //bgMusic = new Sound(backGroundMusicName);
-    //bgMusic.Play();
-    //bgMusic.Loop();
-    //make the music comes progressively during 10 secs
-    //bgMusic.setAmpWithDuration(0.0, 1.0, 2000);
-    
+    bgMusic = new Sound(backGroundMusicName);
+    bgMusic.Play();
+    bgMusic.Loop();
+    bgMusic.setAmpWithDuration(0.0, 1.0, 2000);
     
   }
   
   public void draw() {
     
-    //bgMusic.update();
+    bgMusic.update();
     
     currentRoom.update();
     billy.update();
