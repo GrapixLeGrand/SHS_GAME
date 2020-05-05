@@ -17,7 +17,7 @@ class GameScene extends Scene {
   + System.getProperty("os.arch") + ") \nProvided By Donald Trump";
   private Queue<Pair<String, Boolean>> printList;
   private ArrayList<Integer> lengthList;
-  private int textSize = 23;
+  private int textSize = 15;
   
   Queue<String> cmdToAdd;
   
