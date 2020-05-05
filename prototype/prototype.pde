@@ -18,9 +18,11 @@ boolean testFunctionality = false;
 
 void settings() {
   size(1000, 1000, P2D);
+  
 }
 
 void setup() {
+  frameRate(30);
   font = loadFont("data/pixelFont.vlw");
   dunjeon = createGraphics(height*3/4, height*3/4);
   billy = new Billy(new PVector(dunjeon.width/2, dunjeon.height/2));

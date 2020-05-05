@@ -28,38 +28,41 @@ class GameScene extends Scene {
   private int numDisplay = 0;
   
   private Sound bgMusic;
+  private Malwen malwen;
   
   public GameScene() {
     terminal = createGraphics(width, height/4);
     commandBuilder = new StringBuilder();
     roomStack = new Stack<Room>();
+    malwen = new Malwen(new PVector(width / 2, height / 2));
     buildDunjeon();
     printList = new ArrayDeque();
     cmdToAdd = new ArrayDeque();
     addToDisplay(welcomeMsg, true);
     lengthList = new ArrayList(5);
     lengthList.add(2);
-    bgMusic = new Sound(backGroundMusicName);
-    bgMusic.Play();
-    bgMusic.Loop();
+    //bgMusic = new Sound(backGroundMusicName);
+    //bgMusic.Play();
+    //bgMusic.Loop();
     //make the music comes progressively during 10 secs
-    bgMusic.setAmpWithDuration(0.0, 1.0, 2000);
+    //bgMusic.setAmpWithDuration(0.0, 1.0, 2000);
     
     
   }
   
   public void draw() {
     
-    bgMusic.update();
+    //bgMusic.update();
     
     currentRoom.update();
     billy.update();
-    
+    malwen.update();
     
     dunjeon.beginDraw();
     dunjeon.background(0);
     currentRoom.render();
     billy.render();
+    malwen.render();
     dunjeon.endDraw();
     
     terminal.beginDraw();
@@ -94,6 +97,10 @@ class GameScene extends Scene {
     roomB.addItem(door5);
     Door door6 = new Door(Position.WEST, roomB);
     roomC.addItem(door6);
+    
+    malwen.addRoomAndText(roomA, "Salut poilu");
+    malwen.addRoomAndText(roomB, "Coucou petit !");
+    malwen.addRoomAndText(entrance, "Bienvenu chez ta mère");
     
     currentRoom = entrance;
   }
