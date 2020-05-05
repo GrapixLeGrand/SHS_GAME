@@ -4,6 +4,10 @@ class Billy extends Actor {
   private PVector position;
   private Timer t;
   private PImage[] frames;
+  private PImage[] frontFrames;
+  private PImage[] backFrames;
+  private PImage[] leftFrames;
+  private PImage[] rightFrames;
   private int frameShown;
   //private int direction = 1;
   private float velocity = 10f;
@@ -17,11 +21,27 @@ class Billy extends Actor {
   public Billy(PVector origin) {
     this.position = origin;
     this.goal = null;
-    frames = new PImage[4];
-    frames[0] = loadImage(frontPath+"/Billy_front_walk-1.png");
-    frames[1] = loadImage(frontPath+"/Billy_front_walk-2.png");
-    frames[2] = loadImage(frontPath+"/Billy_front_walk-3.png");
-    frames[3] = loadImage(frontPath+"/Billy_front_walk-4.png");
+    frontFrames = new PImage[4];
+    frontFrames[0] = loadImage(frontPath+"/Billy_front_walk-1.png");
+    frontFrames[1] = loadImage(frontPath+"/Billy_front_walk-2.png");
+    frontFrames[2] = loadImage(frontPath+"/Billy_front_walk-3.png");
+    frontFrames[3] = loadImage(frontPath+"/Billy_front_walk-4.png");
+    backFrames = new PImage[4];
+    backFrames[0] = loadImage(backPath+"/Billy_back_walk-1.png");
+    backFrames[1] = loadImage(backPath+"/Billy_back_walk-2.png");
+    backFrames[2] = loadImage(backPath+"/Billy_back_walk-3.png");
+    backFrames[3] = loadImage(backPath+"/Billy_back_walk-4.png");
+    leftFrames = new PImage[4];
+    leftFrames[0] = loadImage(leftPath+"/Billy_side_walk_left-1.png.png");
+    leftFrames[1] = loadImage(leftPath+"/Billy_side_walk_left-2.png.png");
+    leftFrames[2] = loadImage(leftPath+"/Billy_side_walk_left-3.png.png");
+    leftFrames[3] = loadImage(leftPath+"/Billy_side_walk_left-4.png.png");
+    rightFrames = new PImage[4];
+    rightFrames[0] = loadImage(rightPath+"/Billy_side_walk_right-1.png.png");
+    rightFrames[1] = loadImage(rightPath+"/Billy_side_walk_right-2.png.png");
+    rightFrames[2] = loadImage(rightPath+"/Billy_side_walk_right-3.png.png");
+    rightFrames[3] = loadImage(rightPath+"/Billy_side_walk_right-4.png.png");
+    this.frames = frontFrames;
     this.frameShown = 0;
     this.t = new Timer();
     t.start();
@@ -74,11 +94,11 @@ class Billy extends Actor {
     }
       
     if (position.x < goal.position.x) {
-      //direction = 1;
       position.x += velocity;
+      frames = rightFrames;
     } else if (position.x > goal.position.x) {
-      //direction = -1;
       position.x -= velocity;
+      frames = leftFrames;
     }
   }
   
@@ -91,18 +111,12 @@ class Billy extends Actor {
       
     if (position.y < goal.position.y) {
       position.y += velocity;
-      frames[0] = loadImage(frontPath+"/Billy_front_walk-1.png");
-      frames[1] = loadImage(frontPath+"/Billy_front_walk-2.png");
-      frames[2] = loadImage(frontPath+"/Billy_front_walk-3.png");
-      frames[3] = loadImage(frontPath+"/Billy_front_walk-4.png");
+      frames = frontFrames;
       
     } else if (position.y > goal.position.y) {
       position.y -= velocity;
       
-      frames[0] = loadImage(backPath+"/Billy_back_walk-1.png");
-      frames[1] = loadImage(backPath+"/Billy_back_walk-2.png");
-      frames[2] = loadImage(backPath+"/Billy_back_walk-3.png");
-      frames[3] = loadImage(backPath+"/Billy_back_walk-4.png");
+      frames = backFrames;
     }
   }
   
