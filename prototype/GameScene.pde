@@ -9,7 +9,7 @@ class GameScene extends Scene {
   public Room currentRoom;
   private Command currentCommand;
   private StringBuilder commandBuilder;
-  private String backGroundMusicName = "data/proto.mpeg";
+  private String backGroundMusicName = "data/sound/proto.mpeg";
   public Stack<Room> roomStack;
   
   //font of our game
@@ -41,17 +41,18 @@ class GameScene extends Scene {
     addToDisplay(welcomeMsg, true);
     lengthList = new ArrayList(5);
     lengthList.add(2);
-    //bgMusic = new Sound(backGroundMusicName);
-    //bgMusic.Play();
+    bgMusic = new Sound(backGroundMusicName);
+    bgMusic.Play();
+    bgMusic.Loop();
     //make the music comes progressively during 10 secs
-    //bgMusic.setAmpWithDuration(0.0, 0.5, 10000);
+    bgMusic.setAmpWithDuration(0.0, 1.0, 2000);
     
     
   }
   
   public void draw() {
     
-    //bgMusic.update();
+    bgMusic.update();
     
     if (currentCommand == Command.CD && billy.goalReached()) {
       currentCommand = null;
