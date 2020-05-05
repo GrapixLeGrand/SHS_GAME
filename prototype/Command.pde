@@ -4,7 +4,7 @@ enum Command {
 }
 
 void parse(String input) {
-  String commandName = input; //<>//
+  String commandName = input; //<>// //<>//
   String arguments = "";
   if (commandName.contains(" ")) {
     int slicePos = input.indexOf(" ");
@@ -87,7 +87,7 @@ void parseCDCommand(String destination) {
 }
 
 void parseCATCommand(String label) {
-  for (Item i : gameScene.currentRoom.getItems()) { //<>//
+  for (Item i : gameScene.currentRoom.getItems()) { //<>// //<>//
     if (i.label.equals(label) && i instanceof File) {
       File f = (File) i;
       gameScene.addToQueue(f.content);

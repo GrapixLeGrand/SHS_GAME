@@ -30,39 +30,41 @@ class GameScene extends Scene {
   private int numDisplay = 0;
   
   private Sound bgMusic;
+  private Malwen malwen;
   
   public GameScene() {
     terminal = createGraphics(width, height/4);
     commandBuilder = new StringBuilder();
     roomStack = new Stack<Room>();
-    
+    malwen = new Malwen(new PVector(width / 2, height / 2));
     buildDunjeon();
     printList = new ArrayDeque();
     cmdToAdd = new ArrayDeque();
     addToDisplay(welcomeMsg, true);
     lengthList = new ArrayList(5);
     lengthList.add(2);
-    bgMusic = new Sound(backGroundMusicName);
-    bgMusic.Play();
-    bgMusic.Loop();
+    //bgMusic = new Sound(backGroundMusicName);
+    //bgMusic.Play();
+    //bgMusic.Loop();
     //make the music comes progressively during 10 secs
-    bgMusic.setAmpWithDuration(0.0, 1.0, 2000);
+    //bgMusic.setAmpWithDuration(0.0, 1.0, 2000);
     
     
   }
   
   public void draw() {
     
-    bgMusic.update();
+    //bgMusic.update();
     
     currentRoom.update();
     billy.update();
-    
+    malwen.update();
     
     dunjeon.beginDraw();
     dunjeon.background(0);
     currentRoom.render();
     billy.render();
+    malwen.render();
     dunjeon.endDraw();
     
     terminal.beginDraw();
@@ -78,28 +80,36 @@ class GameScene extends Scene {
     initDoorSprites();
     
     Room entrance = new Room("entrance", "room.png");
-    Room roomA = new Room("room a", "room.png");
-    Room roomB = new Room("room b", "room.png");
-    Room roomC = new Room("room c", "room.png");
-    Door door1 = new Door(Position.NORTH, roomB);
-    File test = new File(new PVector(), "file", "Hello, world!");
-    Captcha testPnj = new Captcha(new PVector(dunjeon.width/4, dunjeon.height/4));
-    Collectible testKey = new Collectible(new PVector(dunjeon.width/4, dunjeon.height/2), "key", "data/Background/Doors/Wall_door_open.png");
+    Room nextRoom = new Room("room a", "room.png");
+    Room captchaRoom = new Room("room b", "room.png");
+    Room fileRoom = new Room("room c", "room.png");
+    
+    Door door1 = new Door(Position.NORTH, nextRoom);
     entrance.addItem(door1);
-    door1.lockDoor(testKey);
-    entrance.addItem(testKey);
-    entrance.addItem(testPnj);
-    entrance.addItem(test);
-    Door door2 = new Door(Position.SOUTH, entrance);
-    roomB.addItem(door2);
-    Door door3 = new Door(Position.WEST, roomA);
+    Door door3 = new Door(Position.EAST, captchaRoom);
     entrance.addItem(door3);
-    Door door4 = new Door(Position.EAST, entrance);
-    roomA.addItem(door4);
-    Door door5 = new Door(Position.EAST, roomC);
-    roomB.addItem(door5);
-    Door door6 = new Door(Position.WEST, roomB);
-    roomC.addItem(door6);
+    
+    Door door2 = new Door(Position.SOUTH, entrance);
+    nextRoom.addItem(door2);
+    
+    Door door4 = new Door(Position.WEST, entrance);
+    captchaRoom.addItem(door4);
+    Captcha captcha = new Captcha(new PVector(dunjeon.width/4, dunjeon.height/4));
+    Collectible nextKey = new Collectible(new PVector(dunjeon.width/4, dunjeon.height/2), "key", "data/Background/Doors/Wall_door_open.png");
+    door1.lockDoor(nextKey);
+    captchaRoom.addItem(nextKey);
+    captchaRoom.addItem(captcha);
+    Door door5 = new Door(Position.SOUTH, fileRoom);
+    captchaRoom.addItem(door5);
+    
+    Door door6 = new Door(Position.NORTH, captchaRoom);
+    fileRoom.addItem(door6);
+    File test = new File(new PVector(dunjeon.width/4, dunjeon.height/4), "file", "Hello, world!");
+    fileRoom.addItem(test);
+    
+    malwen.addRoomAndText(roomA, "Salut poilu");
+    malwen.addRoomAndText(roomB, "Coucou petit !");
+    malwen.addRoomAndText(entrance, "Bienvenu chez ta mère");
     
     currentRoom = entrance;
   }

@@ -1,5 +1,5 @@
 class PNJ extends Item {
-  int PNG_WIDTH = 50;
+  int PNG_WIDTH = 70;
   int PNG_HEIGHT = 50;
   
   public PNJ(PVector position) {
@@ -14,7 +14,7 @@ class PNJ extends Item {
 
 class Captcha extends PNJ {
   
-  private String captchaPath = "data/Background/Doors/Wall_door_open.png";
+  private String captchaPath = "data/captcha.png";
   
   public Captcha(PVector position) {
     super(position);
