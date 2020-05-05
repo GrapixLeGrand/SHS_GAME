@@ -92,7 +92,7 @@ void parseCATCommand(String label) {
   for (Item i : gameScene.currentRoom.getItems()) {
     if (i.label.equals(label) && i instanceof File) {
       File f = (File) i;
-      gameScene.addToQueue(f.content);
+      gameScene.addToQueue(label + " : " + f.content);
       gameScene.manageAddedCommands();
       return;
     }
