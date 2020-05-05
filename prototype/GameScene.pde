@@ -7,7 +7,6 @@ class GameScene extends Scene {
   
   PGraphics terminal;
   public Room currentRoom;
-  private Command currentCommand;
   private StringBuilder commandBuilder;
   private String backGroundMusicName = "data/proto.mpeg";
   public Stack<Room> roomStack;
@@ -17,7 +16,7 @@ class GameScene extends Scene {
   + System.getProperty("os.arch") + ") \nProvided By Donald Trump";
   private Queue<Pair<String, Boolean>> printList;
   private ArrayList<Integer> lengthList;
-  private int textSize = 23;
+  private int textSize = 15;
   
   Queue<String> cmdToAdd;
   
@@ -32,7 +31,6 @@ class GameScene extends Scene {
   
   public GameScene() {
     terminal = createGraphics(width, height/4);
-    this.currentCommand = null;
     commandBuilder = new StringBuilder();
     roomStack = new Stack<Room>();
     buildDunjeon();
@@ -53,10 +51,6 @@ class GameScene extends Scene {
     
     //bgMusic.update();
     
-    if (currentCommand == Command.CD && billy.goalReached()) {
-      currentCommand = null;
-      moveToNextRoom();
-    }
     currentRoom.update();
     billy.update();
     
@@ -74,14 +68,6 @@ class GameScene extends Scene {
     
     image(dunjeon, height/8, 0);
     image(terminal, 0, 3*height/4);
-  }
-  
-  private void moveToNextRoom() {
-    Door d = billy.getDoorToOpen();
-    if (d != null) {
-      currentRoom = d.nextRoom();
-      billy.setPosition(cardinalToCoordinates(Position.values()[(d.cardinalPosition.ordinal() + 2)%4]));
-    }
   }
   
   private void buildDunjeon() {
@@ -187,13 +173,13 @@ class GameScene extends Scene {
   }
   
   public void keyPressed() {
-    if (currentCommand == null) {
+    if (billy.goal == null) {
       if (key == ENTER || key == RETURN) {
         String newCommand = commandBuilder.toString().trim();
         addToDisplay(newCommand, false);
         manageAddedCommands();
         currentModifiedCmd = new String("");
-        currentCommand = parse(newCommand);
+        parse(newCommand);
         commandBuilder = new StringBuilder();
       }
       else if (key == BACKSPACE && commandBuilder.length() > 0) {

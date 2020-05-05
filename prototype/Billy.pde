@@ -8,8 +8,6 @@ class Billy extends Actor {
   //private int direction = 1;
   private float velocity = 10f;
   private Item goal;
-  private boolean goalReached;
-  private Door doorToOpen;
   private String dataPath = "data/Billy/Walk";
   private String frontPath = dataPath + "/Billy_front_walk";
   private String backPath = dataPath + "/Billy_back_walk";
@@ -45,10 +43,11 @@ class Billy extends Actor {
       } else if (position.y != goal.position.y) {
         moveVertically();
       } else {
-        goalReached = true;
         if (goal instanceof Door) {
-          doorToOpen = (Door) goal;
+          Door doorToOpen = (Door) goal;
           doorToOpen.makeSound();
+          gameScene.currentRoom = doorToOpen.nextRoom();
+          setPosition(cardinalToCoordinates(Position.values()[(doorToOpen.cardinalPosition.ordinal() + 2)%4]));
         }
         goal = null;
       }
@@ -107,15 +106,6 @@ class Billy extends Actor {
   
   public void setGoal(Item goal) {
     this.goal = goal;
-    goalReached = false;
-  }
-  
-  public boolean goalReached() {
-    return goalReached;
-  }
-  
-  public Door getDoorToOpen() {
-    return doorToOpen;
   }
   
 }
