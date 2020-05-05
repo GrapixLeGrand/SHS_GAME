@@ -3,7 +3,7 @@ enum Command {
   CD, CAT, ECHO, help, git;
 }
 
-Command parse(String input) {
+void parse(String input) {
   String commandName = input; //<>//
   String arguments = "";
   if (commandName.contains(" ")) {
@@ -14,11 +14,14 @@ Command parse(String input) {
 
   switch (commandName) {
     case "cd" : 
-      return parseCDCommand(arguments);
+      parseCDCommand(arguments);
+      return;
     case "cat" :
-      return parseCATCommand(arguments);
+      parseCATCommand(arguments);
+      return;
     case "echo" :
-      return parseECHOCommand(arguments);
+      parseECHOCommand(arguments);
+      return;
   case "help":
   println("a");
       gameScene.addToQueue("Tip 1: fend for yourself \nTip2: refer to 1");
@@ -43,13 +46,13 @@ Command parse(String input) {
       break;
   }
 
-  return null;
+  return;
 }
 
-Command parseCDCommand(String destination) {
+void parseCDCommand(String destination) {
   if (destination.equals("..")){
     if (gameScene.roomStack.empty()){
-      return null;
+      return;
     }
     else {
       Room last = gameScene.roomStack.peek();
@@ -59,7 +62,7 @@ Command parseCDCommand(String destination) {
           if (d.nextRoom() == last) {
             gameScene.roomStack.pop();
             billy.setGoal(d);
-            return Command.CD;
+            return;
           }
         }
       }
@@ -72,27 +75,27 @@ Command parseCDCommand(String destination) {
       }
       gameScene.roomStack.push(gameScene.currentRoom);
       billy.setGoal(i);
-      return Command.CD;
+      return;
     }
   }
-  return null;
+  return;
 }
 
-Command parseCATCommand(String label) {
+void parseCATCommand(String label) {
   for (Item i : gameScene.currentRoom.getItems()) { //<>//
     if (i.label.equals(label) && i instanceof File) {
       File f = (File) i;
       gameScene.addToQueue(f.content);
       gameScene.manageAddedCommands();
-      return null;
+      return;
     }
   }
   
-  return null;
+  return;
   
 }
 
-Command parseECHOCommand(String text) {
+void parseECHOCommand(String text) {
   for (Item i : gameScene.currentRoom.getItems()) {
     if (i instanceof Captcha) {
       Captcha c = (Captcha) i;
@@ -102,8 +105,8 @@ Command parseECHOCommand(String text) {
       else {
         c.answerNegative();
       }
-      return null;
+      return;
     }
   }
-  return null;
+  return;
 }
