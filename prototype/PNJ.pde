@@ -14,7 +14,7 @@ class PNJ extends Item {
 
 class Captcha extends PNJ {
   
-  private String captchaPath = "data/captcha.png";
+  private String captchaPath = "data/old.png";
   
   public Captcha(PVector position) {
     super(position);

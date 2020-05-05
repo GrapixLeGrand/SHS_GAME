@@ -95,7 +95,7 @@ class GameScene extends Scene {
     Door door4 = new Door(Position.WEST, entrance);
     captchaRoom.addItem(door4);
     Captcha captcha = new Captcha(new PVector(dunjeon.width/4, dunjeon.height/4));
-    Collectible nextKey = new Collectible(new PVector(dunjeon.width/2, dunjeon.height/4), "key", "data/Background/Doors/Wall_door_open.png");
+    Collectible nextKey = new Collectible(new PVector(dunjeon.width/2, dunjeon.height/4), "key", "data/key.png");
     door1.lockDoor(nextKey);
     captchaRoom.addItem(nextKey);
     captchaRoom.addItem(captcha);
