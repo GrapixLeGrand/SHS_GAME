@@ -95,7 +95,7 @@ class GameScene extends Scene {
     Door door4 = new Door(Position.WEST, entrance);
     captchaRoom.addItem(door4);
     Captcha captcha = new Captcha(new PVector(dunjeon.width/4, dunjeon.height/4));
-    Collectible nextKey = new Collectible(new PVector(dunjeon.width/4, dunjeon.height/2), "key", "data/Background/Doors/Wall_door_open.png");
+    Collectible nextKey = new Collectible(new PVector(dunjeon.width/2, dunjeon.height/4), "key", "data/Background/Doors/Wall_door_open.png");
     door1.lockDoor(nextKey);
     captchaRoom.addItem(nextKey);
     captchaRoom.addItem(captcha);
@@ -104,7 +104,7 @@ class GameScene extends Scene {
     
     Door door6 = new Door(Position.NORTH, captchaRoom);
     fileRoom.addItem(door6);
-    File test = new File(new PVector(dunjeon.width/4, dunjeon.height/4), "file", "Hello, world!");
+    File test = new File(new PVector(dunjeon.width/2, dunjeon.height/2), "file", "The old man next door is completely blind.\nJust tell him that you're not what he thinks you are.");
     fileRoom.addItem(test);
     
     malwen.addRoomAndText(captchaRoom, "Dis a cet abruti  \n que tu n'es pas un robot !");
