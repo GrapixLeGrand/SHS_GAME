@@ -105,7 +105,7 @@ class GameScene extends Scene {
     File test = new File(new PVector(dunjeon.width/2, dunjeon.height/2), "file", "The old man next door is completely blind.\nJust tell him that you're not what he thinks you are.");
     fileRoom.addItem(test);
     
-    malwen.addRoomAndText(captchaRoom, "Looks like someone is here\nYou can say something\nwith the 'echo' command!");
+    malwen.addRoomAndText(captchaRoom, "Looks like someone is here\nYou can say something\nwith the 'echo' command!\nFor example, 'echo I am Malwene the wonderful fairy!'\n");
     malwen.addRoomAndText(entrance, "Hello Billy !\n I am your super friend Malwene ! \n To use a command, write \n'<command> <arg>' in your terminal! \nFor example, you can try moving \nto room a with 'cd room a'\nDon't forget to press Enter\n to validate your command!");
     malwen.addRoomAndText(nextRoom, "Well done hehehe ! \nI AM FREEEEEEEEE !");
     
