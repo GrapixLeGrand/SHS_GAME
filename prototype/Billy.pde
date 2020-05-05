@@ -8,6 +8,7 @@ class Billy extends Actor {
   private PImage[] backFrames;
   private PImage[] leftFrames;
   private PImage[] rightFrames;
+  private PImage[] idleFrames;
   private int frameShown;
   //private int direction = 1;
   private float velocity = 10f;
@@ -41,7 +42,12 @@ class Billy extends Actor {
     rightFrames[1] = loadImage(rightPath+"/Billy_side_walk_right-2.png.png");
     rightFrames[2] = loadImage(rightPath+"/Billy_side_walk_right-3.png.png");
     rightFrames[3] = loadImage(rightPath+"/Billy_side_walk_right-4.png.png");
-    this.frames = frontFrames;
+    idleFrames = new PImage[4];
+    idleFrames[0] = loadImage("data/Billy/Idle/Billy_idle-1.png");
+    idleFrames[1] = loadImage("data/Billy/Idle/Billy_idle-2.png");
+    idleFrames[2] = loadImage("data/Billy/Idle/Billy_idle-1.png");
+    idleFrames[3] = loadImage("data/Billy/Idle/Billy_idle-2.png");
+    this.frames = idleFrames;
     this.frameShown = 0;
     this.t = new Timer();
     t.start();
@@ -76,6 +82,7 @@ class Billy extends Actor {
           d.unlockDoor();
         }
         goal = null;
+        frames = idleFrames;
       }
     }
     

@@ -43,16 +43,16 @@ class GameScene extends Scene {
     addToDisplay(welcomeMsg, true);
     lengthList = new ArrayList(5);
     lengthList.add(2);
-    bgMusic = new Sound(backGroundMusicName);
-    bgMusic.Play();
-    bgMusic.Loop();
-    bgMusic.setAmpWithDuration(0.0, 1.0, 2000);
+    //bgMusic = new Sound(backGroundMusicName);
+    //bgMusic.Play();
+    //bgMusic.Loop();
+    //bgMusic.setAmpWithDuration(0.0, 1.0, 2000);
     
   }
   
   public void draw() {
     
-    bgMusic.update();
+    //bgMusic.update();
     
     currentRoom.update();
     billy.update();
@@ -107,7 +107,7 @@ class GameScene extends Scene {
     
     malwen.addRoomAndText(captchaRoom, "Looks like someone is here\nYou can say something\nwith the 'echo' command!\nFor example,\n'echo I am Malwene the wonderful fairy!'\n");
     malwen.addRoomAndText(entrance, "Hello Billy !\n I am your super friend Malwene ! \n To use a command, write \n'<command> <arg>' in your terminal! \nFor example, you can try moving \nto room a with 'cd room a'\nDon't forget to press Enter\n to validate your command!");
-    malwen.addRoomAndText(nextRoom, "Well done hehehe ! \nI AM FREEEEEEEEE !");
+    malwen.addRoomAndText(nextRoom, "Well done hehehe !\nI AM FREEEEEEEEE !");
     malwen.addRoomAndText(fileRoom, "This is a file!\nYou can see what's inside using 'cat'");
     
     currentRoom = entrance;
