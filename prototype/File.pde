@@ -5,7 +5,7 @@ final int FILE_HEIGHT = 40;
 public class File extends Item {
   
   String content;
-  private String filePath = "data/Background/Doors/Wall_door_open.png";
+  private String filePath = "data/floppy.png";
   
   public File(PVector position, String label, String content) {
     PImage tmp = loadImage(filePath);
