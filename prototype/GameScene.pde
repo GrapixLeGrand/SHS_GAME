@@ -22,7 +22,7 @@ class GameScene extends Scene {
   Queue<String> cmdToAdd;
   
   private final int textOffsetX = 15;
-  private final int textOffsetY = 30;
+  private final int textOffsetY = 20;
   private final String userName = System.getProperty("user.name");
   private String currentModifiedCmd = "";
   
@@ -178,8 +178,8 @@ class GameScene extends Scene {
         
         cmdToAdd.clear();
         
-        if (numDisplay > 4) {
-          while(numDisplay > 4) {
+        if (numDisplay > 6) {
+          while(numDisplay > 6) {
             numDisplay--;
             printList.poll();
           }
