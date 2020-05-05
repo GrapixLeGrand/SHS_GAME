@@ -90,7 +90,13 @@ class GameScene extends Scene {
     Room roomB = new Room("room b", "room.png");
     Room roomC = new Room("room c", "room.png");
     Door door1 = new Door(Position.NORTH, roomB);
+    File test = new File(new PVector(), "file", "Hello, world!");
+    Captcha testPnj = new Captcha(new PVector(dunjeon.width/4, dunjeon.height/4));
+    Collectible testKey = new Collectible(new PVector(dunjeon.width/4, dunjeon.height/2), "key", "data/Background/Doors/Wall_door_open.png");
     entrance.addItem(door1);
+    entrance.addItem(testPnj);
+    entrance.addItem(testKey);
+    entrance.addItem(test);
     Door door2 = new Door(Position.SOUTH, entrance);
     roomB.addItem(door2);
     Door door3 = new Door(Position.WEST, roomA);

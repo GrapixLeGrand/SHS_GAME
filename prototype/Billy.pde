@@ -12,6 +12,9 @@ class Billy extends Actor {
   private Door doorToOpen;
   private String dataPath = "data/Billy/Walk";
   private String frontPath = dataPath + "/Billy_front_walk";
+  private String backPath = dataPath + "/Billy_back_walk";
+  private String leftPath = dataPath + "/Billy_side_walk_left";
+  private String rightPath = dataPath + "/Billy_side_walk_right";
   
   public Billy(PVector origin) {
     this.position = origin;
@@ -83,8 +86,18 @@ class Billy extends Actor {
       
     if (position.y < goal.position.y) {
       position.y += velocity;
+      frames[0] = loadImage(frontPath+"/Billy_front_walk-1.png");
+      frames[1] = loadImage(frontPath+"/Billy_front_walk-2.png");
+      frames[2] = loadImage(frontPath+"/Billy_front_walk-3.png");
+      frames[3] = loadImage(frontPath+"/Billy_front_walk-4.png");
+      
     } else if (position.y > goal.position.y) {
       position.y -= velocity;
+      
+      frames[0] = loadImage(backPath+"/Billy_back_walk-1.png");
+      frames[1] = loadImage(backPath+"/Billy_back_walk-2.png");
+      frames[2] = loadImage(backPath+"/Billy_back_walk-3.png");
+      frames[3] = loadImage(backPath+"/Billy_back_walk-4.png");
     }
   }
   

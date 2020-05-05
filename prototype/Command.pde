@@ -1,10 +1,10 @@
 //different types of commands
 enum Command { 
-  CD, help, git;
+  CD, CAT, ECHO, help, git;
 }
 
 Command parse(String input) {
-  String commandName = input;
+  String commandName = input; //<>//
   String arguments = "";
   if (commandName.contains(" ")) {
     int slicePos = input.indexOf(" ");
@@ -13,8 +13,12 @@ Command parse(String input) {
   }
 
   switch (commandName) {
-  case "cd" : 
-    return parseCDCommand(arguments);
+    case "cd" : 
+      return parseCDCommand(arguments);
+    case "cat" :
+      return parseCATCommand(arguments);
+    case "echo" :
+      return parseECHOCommand(arguments);
   case "help":
   println("a");
       gameScene.addToQueue("Tip 1: fend for yourself \nTip2: refer to 1");
@@ -63,9 +67,42 @@ Command parseCDCommand(String destination) {
   }
   for (Item i : gameScene.currentRoom.getItems()) {
     if (i.label.equals(destination)) {
+      if (i instanceof Collectible && !((Collectible) i).available) {
+        break;
+      }
       gameScene.roomStack.push(gameScene.currentRoom);
       billy.setGoal(i);
       return Command.CD;
+    }
+  }
+  return null;
+}
+
+Command parseCATCommand(String label) {
+  for (Item i : gameScene.currentRoom.getItems()) { //<>//
+    if (i.label.equals(label) && i instanceof File) {
+      File f = (File) i;
+      gameScene.addToQueue(f.content);
+      gameScene.manageAddedCommands();
+      return null;
+    }
+  }
+  
+  return null;
+  
+}
+
+Command parseECHOCommand(String text) {
+  for (Item i : gameScene.currentRoom.getItems()) {
+    if (i instanceof Captcha) {
+      Captcha c = (Captcha) i;
+      if (text.startsWith("I am not a robot") || text.startsWith("I'm not a robot")) {
+        c.answerPositive();
+      }
+      else {
+        c.answerNegative();
+      }
+      return null;
     }
   }
   return null;
