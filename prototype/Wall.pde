@@ -5,7 +5,8 @@ class Sprite extends Entity {
   private PImage sprite;
   
   Sprite(PImage spriteImg) {
-     this.sprite = spriteImg.copy();
+     //this.sprite = spriteImg.copy();
+     this.sprite = spriteImg;
   }
   
   void update() {
@@ -28,7 +29,8 @@ class AnimatedSprite extends Sprite {
     super(sprites.get(0));
     animationSprites = new ArrayList();
     for (PImage img : sprites) {
-      animationSprites.add(img.copy());
+      //animationSprites.add(img.copy());
+      animationSprites.add(img);
     }
     this.speed = speed;
     timer = new Timer();
@@ -68,17 +70,18 @@ class Walls extends Actor {
   
   Walls() {
     
-    this.sprite = loadImage(circuitWallName);
-    this.spriteWallSimple = loadImage(normalWallName);
-    this.spriteWallSimple.resize(DOOR_WIDTH, DOOR_HEIGHT);
-    this.sprite.resize(DOOR_WIDTH, DOOR_HEIGHT);
+    //this.sprite = loadImage(circuitWallName);
+    //this.spriteWallSimple = loadImage(normalWallName);
+    //this.spriteWallSimple.resize(DOOR_WIDTH, DOOR_HEIGHT);
+    //this.sprite.resize(DOOR_WIDTH, DOOR_HEIGHT);
+    /*
     fanSprites = new ArrayList();
     for (String name : fanSpritesUrl) {
       PImage tmp = loadImage(name);
       tmp.resize(DOOR_WIDTH, DOOR_HEIGHT);
       fanSprites.add(tmp);
     }
-    
+    */
     configuration = new ArrayList();
   
     for (int i = 0; i < wall_sprites_n; i ++) {
@@ -87,16 +90,17 @@ class Walls extends Actor {
     
     wallSprites = new ArrayList();
     
+    //waring i m getting the references to the images that I loaded in setup
     for (int i : configuration) {
       switch(i) {
         case 0:
-          wallSprites.add(new Sprite(this.spriteWallSimple));
+          wallSprites.add(new Sprite(wallSimpleSprite));
         break;
         case 1:
-          wallSprites.add(new Sprite(this.sprite));
+          wallSprites.add(new Sprite(wallCircuitSprite));
         break;
         case 2:
-          wallSprites.add(new AnimatedSprite(fanSprites, random(20, 200)));
+          wallSprites.add(new AnimatedSprite(wallFanSprites, random(20, 200)));
         break;
       }
     }
