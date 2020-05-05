@@ -107,8 +107,7 @@ class GameScene extends Scene {
     File test = new File(new PVector(dunjeon.width/4, dunjeon.height/4), "file", "Hello, world!");
     fileRoom.addItem(test);
     
-    malwen.addRoomAndText(roomA, "Salut poilu");
-    malwen.addRoomAndText(roomB, "Coucou petit !");
+    malwen.addRoomAndText(nextRoom, "Salut poilu");
     malwen.addRoomAndText(entrance, "Bienvenu chez ta mère");
     
     currentRoom = entrance;
