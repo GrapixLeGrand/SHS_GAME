@@ -51,10 +51,11 @@ class AnimatedSprite extends Sprite {
 
 class Walls extends Actor {
   
-  private PImage sprite;
-  private PImage spriteWallSimple;
+  //private PImage sprite;
+  //private PImage spriteWallSimple;
   private int wall_sprites_n = (dunjeon.width - 2 * WALL_UNIT_HEIGHT) / WALL_UNIT_WIDTH;
   
+  /*
   ArrayList<PImage> fanSprites;
   String[] fanSpritesUrl = {
     "data/Background/Wall_2_fan/Wall_2_1_fan.png", 
@@ -62,11 +63,11 @@ class Walls extends Actor {
     "data/Background/Wall_2_fan/Wall_2_3_fan.png", 
     "data/Background/Wall_2_fan/Wall_2_4_fan.png", 
   };
-  
+  */
   ArrayList<Integer> configuration;
   ArrayList<Sprite> wallSprites;
-  private String circuitWallName = "data/Background/Wall_circuit.png";
-  private String normalWallName = "data/Background/Wall_simple.png";
+  //private String circuitWallName = "data/Background/Wall_circuit.png";
+  //private String normalWallName = "data/Background/Wall_simple.png";
   
   Walls() {
     
@@ -119,7 +120,6 @@ class Walls extends Actor {
           dunjeon.pushMatrix();
           dunjeon.translate(trans.x, trans.y);
           dunjeon.rotate(angle);
-          //dunjeon.image(sprite, dunjeon.width/2 - WALL_UNIT_WIDTH * i, 0);
           wallSprites.get(index).drawSprite(dunjeon.width/2 - WALL_UNIT_WIDTH * i);
           index ++;
           dunjeon.popMatrix();
