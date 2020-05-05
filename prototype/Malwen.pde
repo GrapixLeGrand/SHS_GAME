@@ -52,7 +52,7 @@ class Malwen extends Actor {
       if (currentText != null)  {
         dunjeon.pushMatrix();
         dunjeon.pushStyle();
-        dunjeon.textSize(18);
+        dunjeon.textSize(15);
         dunjeon.fill(200, 0, 0);
         dunjeon.textAlign(CENTER, CENTER);
         dunjeon.translate(width / 2 - 110, height / 2);
