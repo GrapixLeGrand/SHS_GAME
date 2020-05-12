@@ -8,7 +8,7 @@ class GameScene extends Scene {
   PGraphics terminal;
   public Room currentRoom;
   private StringBuilder commandBuilder;
-  private String backGroundMusicName = "data/sound/Song_game.mp3";
+  private String backGroundMusicName = "data/sound/Song_game.wav";
   public Stack<Room> roomStack;
   
   //font of our game
