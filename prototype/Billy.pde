@@ -3,21 +3,52 @@ class Billy extends Actor {
   
   private PVector position;
   private Timer t;
-  private PImage frame1;
-  private PImage frame2;
-  private PImage frameShown;
-  private int direction = 1;
+  private PImage[] frames;
+  private PImage[] frontFrames;
+  private PImage[] backFrames;
+  private PImage[] leftFrames;
+  private PImage[] rightFrames;
+  private PImage[] idleFrames;
+  private int frameShown;
+  //private int direction = 1;
   private float velocity = 10f;
   private Item goal;
-  private boolean goalReached;
-  private Door doorToOpen;
+  private String dataPath = "data/Billy/Walk";
+  private String frontPath = dataPath + "/Billy_front_walk";
+  private String backPath = dataPath + "/Billy_back_walk";
+  private String leftPath = dataPath + "/Billy_side_walk_left";
+  private String rightPath = dataPath + "/Billy_side_walk_right";
   
   public Billy(PVector origin) {
     this.position = origin;
     this.goal = null;
-    this.frame1 = loadImage("frame1.png");
-    this.frame2 = loadImage("frame2.png");
-    this.frameShown = frame1;
+    frontFrames = new PImage[4];
+    frontFrames[0] = loadImage(frontPath+"/Billy_front_walk-1.png");
+    frontFrames[1] = loadImage(frontPath+"/Billy_front_walk-2.png");
+    frontFrames[2] = loadImage(frontPath+"/Billy_front_walk-3.png");
+    frontFrames[3] = loadImage(frontPath+"/Billy_front_walk-4.png");
+    backFrames = new PImage[4];
+    backFrames[0] = loadImage(backPath+"/Billy_back_walk-1.png");
+    backFrames[1] = loadImage(backPath+"/Billy_back_walk-2.png");
+    backFrames[2] = loadImage(backPath+"/Billy_back_walk-3.png");
+    backFrames[3] = loadImage(backPath+"/Billy_back_walk-4.png");
+    leftFrames = new PImage[4];
+    leftFrames[0] = loadImage(leftPath+"/Billy_side_walk_left-1.png.png");
+    leftFrames[1] = loadImage(leftPath+"/Billy_side_walk_left-2.png.png");
+    leftFrames[2] = loadImage(leftPath+"/Billy_side_walk_left-3.png.png");
+    leftFrames[3] = loadImage(leftPath+"/Billy_side_walk_left-4.png.png");
+    rightFrames = new PImage[4];
+    rightFrames[0] = loadImage(rightPath+"/Billy_side_walk_right-1.png.png");
+    rightFrames[1] = loadImage(rightPath+"/Billy_side_walk_right-2.png.png");
+    rightFrames[2] = loadImage(rightPath+"/Billy_side_walk_right-3.png.png");
+    rightFrames[3] = loadImage(rightPath+"/Billy_side_walk_right-4.png.png");
+    idleFrames = new PImage[4];
+    idleFrames[0] = loadImage("data/Billy/Idle/Billy_idle-1.png");
+    idleFrames[1] = loadImage("data/Billy/Idle/Billy_idle-2.png");
+    idleFrames[2] = loadImage("data/Billy/Idle/Billy_idle-1.png");
+    idleFrames[3] = loadImage("data/Billy/Idle/Billy_idle-2.png");
+    this.frames = idleFrames;
+    this.frameShown = 0;
     this.t = new Timer();
     t.start();
   }
@@ -25,8 +56,9 @@ class Billy extends Actor {
   public void render() {
     dunjeon.pushMatrix();
     dunjeon.translate(position.x, position.y);
-    dunjeon.scale(direction/2., 0.5);
-    dunjeon.image(frameShown, - frameShown.width / 2, - frameShown.height/ 2);
+    //dunjeon.scale(direction/2., 0.5);
+    dunjeon.scale(2);
+    dunjeon.image(frames[frameShown], - (frames[frameShown]).width / 2, - (frames[frameShown]).height/ 2);
     dunjeon.popMatrix();
   }
   
@@ -37,22 +69,26 @@ class Billy extends Actor {
       } else if (position.y != goal.position.y) {
         moveVertically();
       } else {
-        goalReached = true;
         if (goal instanceof Door) {
-          doorToOpen = (Door) goal;
+          Door doorToOpen = (Door) goal;
           doorToOpen.makeSound();
+          gameScene.currentRoom = doorToOpen.nextRoom();
+          setPosition(cardinalToCoordinates(Position.values()[(doorToOpen.cardinalPosition.ordinal() + 2)%4]));
+        }
+        else if (goal instanceof Collectible) {
+          Collectible c = (Collectible) goal;
+          c.available = false;
+          Door d = doorMap.get(c);
+          d.unlockDoor();
         }
         goal = null;
+        frames = idleFrames;
       }
     }
     
     t.update();
     if (t.getValue() > 400) {
-      if (frameShown == frame1) 
-        frameShown = frame2;
-      else 
-        frameShown = frame1;
-        
+      frameShown = (frameShown + 1) % 4;
       t.restart();
     }
   }
@@ -65,11 +101,11 @@ class Billy extends Actor {
     }
       
     if (position.x < goal.position.x) {
-      direction = 1;
       position.x += velocity;
+      frames = rightFrames;
     } else if (position.x > goal.position.x) {
-      direction = -1;
       position.x -= velocity;
+      frames = leftFrames;
     }
   }
   
@@ -82,8 +118,12 @@ class Billy extends Actor {
       
     if (position.y < goal.position.y) {
       position.y += velocity;
+      frames = frontFrames;
+      
     } else if (position.y > goal.position.y) {
       position.y -= velocity;
+      
+      frames = backFrames;
     }
   }
   
@@ -93,15 +133,6 @@ class Billy extends Actor {
   
   public void setGoal(Item goal) {
     this.goal = goal;
-    goalReached = false;
-  }
-  
-  public boolean goalReached() {
-    return goalReached;
-  }
-  
-  public Door getDoorToOpen() {
-    return doorToOpen;
   }
   
 }

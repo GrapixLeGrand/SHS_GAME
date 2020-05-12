@@ -1,9 +1,9 @@
-//different types of commands
+//different types of commands //<>// //<>//
 enum Command { 
-  CD, help, git;
+  CD, CAT, ECHO, help, git;
 }
 
-Command parse(String input) {
+void parse(String input) {
   String commandName = input;
   String arguments = "";
   if (commandName.contains(" ")) {
@@ -14,40 +14,46 @@ Command parse(String input) {
 
   switch (commandName) {
   case "cd" : 
-    return parseCDCommand(arguments);
+    parseCDCommand(arguments);
+    return;
+  case "cat" :
+    parseCATCommand(arguments);
+    return;
+  case "echo" :
+    parseECHOCommand(arguments);
+    return;
   case "help":
-  println("a");
-      gameScene.addToQueue("Tip 1: fend for yourself \nTip2: refer to 1");
-      //cmdToAdd.add("Tip 1: fend for yourself \nTip2: refer to 1");
-      //gameScene.addToDisplay("Tip 1: fend for yourself \nTip2: refer to 1", true);
-      gameScene.manageAddedCommands();
-      break;
+    println("a");
+    gameScene.addToQueue("Tip 1: fend for yourself \nTip2: refer to 1");
+    //cmdToAdd.add("Tip 1: fend for yourself \nTip2: refer to 1");
+    //gameScene.addToDisplay("Tip 1: fend for yourself \nTip2: refer to 1", true);
+    gameScene.manageAddedCommands();
+    break;
   case "exit":
-      gameScene.addToQueue("The only exit is death");
-      gameScene.manageAddedCommands();
-      //gameScene.addToDisplay("The only exit is death", true);
-      break;
-     case "pegi --set 18":
-      gameScene.addToQueue("Hold on ! You're too young for that !");
-      gameScene.manageAddedCommands();
-      //gameScene.addToDisplay("The only exit is death", true);
-      break;
+    gameScene.addToQueue("The only exit is death");
+    gameScene.manageAddedCommands();
+    //gameScene.addToDisplay("The only exit is death", true);
+    break;
+  case "pegi --set 18":
+    gameScene.addToQueue("Hold on ! You're too young for that !");
+    gameScene.manageAddedCommands();
+    //gameScene.addToDisplay("The only exit is death", true);
+    break;
   case "sudo":
-      gameScene.addToQueue("Unknown command ! \n Do you mean \"Sudoku\"?");
-      gameScene.manageAddedCommands();
-      //gameScene.addToDisplay("The only exit is death", true);
-      break;
+    gameScene.addToQueue("Unknown command ! \n Do you mean \"Sudoku\"?");
+    gameScene.manageAddedCommands();
+    //gameScene.addToDisplay("The only exit is death", true);
+    break;
   }
 
-  return null;
+  return;
 }
 
-Command parseCDCommand(String destination) {
-  if (destination.equals("..")){
-    if (gameScene.roomStack.empty()){
-      return null;
-    }
-    else {
+void parseCDCommand(String destination) {
+  if (destination.equals("..")) {
+    if (gameScene.roomStack.empty()) {
+      return;
+    } else {
       Room last = gameScene.roomStack.peek();
       for (Item i : gameScene.currentRoom.getItems()) {
         if (i instanceof Door) {
@@ -55,7 +61,7 @@ Command parseCDCommand(String destination) {
           if (d.nextRoom() == last) {
             gameScene.roomStack.pop();
             billy.setGoal(d);
-            return Command.CD;
+            return;
           }
         }
       }
@@ -63,10 +69,49 @@ Command parseCDCommand(String destination) {
   }
   for (Item i : gameScene.currentRoom.getItems()) {
     if (i.label.equals(destination)) {
-      gameScene.roomStack.push(gameScene.currentRoom);
+      if (i instanceof Collectible && !((Collectible) i).available) {
+        return;
+      }
+      if (i instanceof Door) {
+        gameScene.roomStack.push(gameScene.currentRoom);
+        if (((Door) i).locked()) {
+          gameScene.addToQueue("This door is locked, you need to find a key to open it");
+          gameScene.manageAddedCommands();
+          return;
+        }
+      }
+      
       billy.setGoal(i);
-      return Command.CD;
+      return;
     }
   }
-  return null;
+  return;
+}
+
+void parseCATCommand(String label) {
+  for (Item i : gameScene.currentRoom.getItems()) {
+    if (i.label.equals(label) && i instanceof File) {
+      File f = (File) i;
+      gameScene.addToQueue(label + " : " + f.content);
+      gameScene.manageAddedCommands();
+      return;
+    }
+  }
+
+  return;
+}
+
+void parseECHOCommand(String text) {
+  for (Item i : gameScene.currentRoom.getItems()) {
+    if (i instanceof Captcha) {
+      Captcha c = (Captcha) i;
+      if (text.startsWith("I am not a robot") || text.startsWith("I'm not a robot")) {
+        c.answerPositive();
+      } else {
+        c.answerNegative();
+      }
+      return;
+    }
+  }
+  return;
 }

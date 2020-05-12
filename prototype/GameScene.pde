@@ -2,57 +2,51 @@
 import java.util.Properties;
 import javafx.util.Pair;
 
-
 //a scene with a dunjeon and a terminal
 class GameScene extends Scene {
   
   PGraphics terminal;
   public Room currentRoom;
-  private Command currentCommand;
   private StringBuilder commandBuilder;
-  private String backGroundMusicName = "data/proto.mpeg";
+  private String backGroundMusicName = "data/sound/proto.wav";
   public Stack<Room> roomStack;
   
   //font of our game
-  private PFont font;
-  private final String fontName = "data/pixelFont.vlw";
-  //System.getProperty("user.name")
   private String welcomeMsg = "Welcome @" + System.getProperty("user.name") + ", DummyOS (" 
   + System.getProperty("os.arch") + ") \nProvided By Donald Trump";
   private Queue<Pair<String, Boolean>> printList;
   private ArrayList<Integer> lengthList;
-  private int textSize = 23;
+  private int textSize = 15;
   
   Queue<String> cmdToAdd;
   
+  Map<Collectible, Door> doorMap;
+  
   private final int textOffsetX = 15;
-  private final int textOffsetY = 30;
+  private final int textOffsetY = 20;
   private final String userName = System.getProperty("user.name");
   private String currentModifiedCmd = "";
   
   private int numDisplay = 0;
   
   private Sound bgMusic;
+  private Malwen malwen;
   
   public GameScene() {
     terminal = createGraphics(width, height/4);
-    this.currentCommand = null;
     commandBuilder = new StringBuilder();
     roomStack = new Stack<Room>();
+    malwen = new Malwen(new PVector(90, height / 2), new PVector(90, height / 2));
     buildDunjeon();
     printList = new ArrayDeque();
     cmdToAdd = new ArrayDeque();
     addToDisplay(welcomeMsg, true);
-    //printList.add(new Pair(welcomeMsg, true));
     lengthList = new ArrayList(5);
     lengthList.add(2);
     //bgMusic = new Sound(backGroundMusicName);
     //bgMusic.Play();
-    //make the music comes progressively during 10 secs
-    //bgMusic.setAmpWithDuration(0.0, 0.5, 10000);
-    
-    font = loadFont(fontName);
-    
+    //bgMusic.Loop();
+    //bgMusic.setAmpWithDuration(0.0, 1.0, 2000);
     
   }
   
@@ -60,20 +54,15 @@ class GameScene extends Scene {
     
     //bgMusic.update();
     
-    //println(numDisplay);
-    
-    if (currentCommand == Command.CD && billy.goalReached()) {
-      currentCommand = null;
-      moveToNextRoom();
-    }
     currentRoom.update();
     billy.update();
-    
+    malwen.update();
     
     dunjeon.beginDraw();
     dunjeon.background(0);
     currentRoom.render();
     billy.render();
+    malwen.render();
     dunjeon.endDraw();
     
     terminal.beginDraw();
@@ -85,41 +74,43 @@ class GameScene extends Scene {
     image(terminal, 0, 3*height/4);
   }
   
-  private void moveToNextRoom() {
-    Door d = billy.getDoorToOpen();
-    if (d != null) {
-      currentRoom = d.nextRoom();
-      billy.setPosition(cardinalToCoordinates(Position.values()[(d.cardinalPosition.ordinal() + 2)%4]));
-    }
-  }
-  
   private void buildDunjeon() {
+    initDoorSprites();
+    
     Room entrance = new Room("entrance", "room.png");
-    Room roomA = new Room("room a", "room.png");
-    Room roomB = new Room("room b", "room.png");
-    Room roomC = new Room("room c", "room.png");
-    Door door1 = new Door(Position.NORTH, roomB);
+    Room nextRoom = new Room("room a", "room.png");
+    Room captchaRoom = new Room("room b", "room.png");
+    Room fileRoom = new Room("room c", "room.png");
+    
+    Door door1 = new Door(Position.NORTH, nextRoom);
     entrance.addItem(door1);
-    Door door2 = new Door(Position.SOUTH, entrance);
-    roomB.addItem(door2);
-    Door door3 = new Door(Position.WEST, roomA);
+    Door door3 = new Door(Position.EAST, captchaRoom);
     entrance.addItem(door3);
-    Door door4 = new Door(Position.EAST, entrance);
-    roomA.addItem(door4);
-    Door door5 = new Door(Position.EAST, roomC);
-    roomB.addItem(door5);
-    Door door6 = new Door(Position.WEST, roomB);
-    roomC.addItem(door6);
+    
+    Door door2 = new Door(Position.SOUTH, entrance);
+    nextRoom.addItem(door2);
+    
+    Door door4 = new Door(Position.WEST, entrance);
+    captchaRoom.addItem(door4);
+    Captcha captcha = new Captcha(new PVector(dunjeon.width/4, dunjeon.height/4));
+    Collectible nextKey = new Collectible(new PVector(dunjeon.width/2, dunjeon.height/4), "key", "data/key.png");
+    door1.lockDoor(nextKey);
+    captchaRoom.addItem(nextKey);
+    captchaRoom.addItem(captcha);
+    Door door5 = new Door(Position.SOUTH, fileRoom);
+    captchaRoom.addItem(door5);
+    
+    Door door6 = new Door(Position.NORTH, captchaRoom);
+    fileRoom.addItem(door6);
+    File test = new File(new PVector(dunjeon.width/2, dunjeon.height/2), "file", "The old man next door is completely blind.\nJust tell him that you're not what he thinks you are.");
+    fileRoom.addItem(test);
+    
+    malwen.addRoomAndText(captchaRoom, "Looks like someone is here\nYou can say something\nwith the 'echo' command!\nFor example,\n'echo I am Malwene the wonderful fairy!'\n");
+    malwen.addRoomAndText(entrance, "Hello Billy !\n I am your super friend Malwene ! \n To use a command, write \n'<command> <arg>' in your terminal! \nFor example, you can try moving \nto room a with 'cd room a'\nDon't forget to press Enter\n to validate your command!");
+    malwen.addRoomAndText(nextRoom, "Well done hehehe !\nI AM FREEEEEEEEE !");
+    malwen.addRoomAndText(fileRoom, "This is a file!\nYou can see what's inside using 'cat'");
     
     currentRoom = entrance;
-  }
-  
-  private float computeWidth(String s) {
-    float res = 0.0f;
-    for (int i = 0; i < s.length(); i ++) {
-      res += textWidth(s.charAt(i));
-    }
-    return res;
   }
   
   private void drawTerminal() {
@@ -127,7 +118,6 @@ class GameScene extends Scene {
     terminal.textFont(font);
     terminal.textSize(textSize);
     int i = 0;
-    
     float luser = textOffsetX;
     float lat = luser + textSize * "user".length();
     float lname = lat + textSize;
@@ -175,8 +165,6 @@ class GameScene extends Scene {
     
     String[] tmp = s.split("\n");
     
-    
-    
     for (String i : tmp) {
       printList.add(new Pair(new String(i), b));
       numDisplay ++;
@@ -191,8 +179,8 @@ class GameScene extends Scene {
         
         cmdToAdd.clear();
         
-        if (numDisplay > 4) {
-          while(numDisplay > 4) {
+        if (numDisplay > 6) {
+          while(numDisplay > 6) {
             numDisplay--;
             printList.poll();
           }
@@ -201,17 +189,13 @@ class GameScene extends Scene {
   }
   
   public void keyPressed() {
-    if (currentCommand == null) {
+    if (billy.goal == null) {
       if (key == ENTER || key == RETURN) {
-        println("b");
         String newCommand = commandBuilder.toString().trim();
-        
         addToDisplay(newCommand, false);
-        
         manageAddedCommands();
-        
         currentModifiedCmd = new String("");
-        currentCommand = parse(newCommand);
+        parse(newCommand);
         commandBuilder = new StringBuilder();
       }
       else if (key == BACKSPACE && commandBuilder.length() > 0) {
