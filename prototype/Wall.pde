@@ -1,5 +1,6 @@
 
 public enum wall_type {NORM, CIRCUIT, FAN};
+
 class Sprite extends Entity {
   
   private PImage sprite;
@@ -55,34 +56,11 @@ class Walls extends Actor {
   //private PImage spriteWallSimple;
   private int wall_sprites_n = (dunjeon.width - 2 * WALL_UNIT_HEIGHT) / WALL_UNIT_WIDTH;
   
-  /*
-  ArrayList<PImage> fanSprites;
-  String[] fanSpritesUrl = {
-    "data/Background/Wall_2_fan/Wall_2_1_fan.png", 
-    "data/Background/Wall_2_fan/Wall_2_2_fan.png", 
-    "data/Background/Wall_2_fan/Wall_2_3_fan.png", 
-    "data/Background/Wall_2_fan/Wall_2_4_fan.png", 
-  };
-  */
   ArrayList<Integer> configuration;
   ArrayList<Sprite> wallSprites;
-  //private String circuitWallName = "data/Background/Wall_circuit.png";
-  //private String normalWallName = "data/Background/Wall_simple.png";
   
   Walls() {
     
-    //this.sprite = loadImage(circuitWallName);
-    //this.spriteWallSimple = loadImage(normalWallName);
-    //this.spriteWallSimple.resize(DOOR_WIDTH, DOOR_HEIGHT);
-    //this.sprite.resize(DOOR_WIDTH, DOOR_HEIGHT);
-    /*
-    fanSprites = new ArrayList();
-    for (String name : fanSpritesUrl) {
-      PImage tmp = loadImage(name);
-      tmp.resize(DOOR_WIDTH, DOOR_HEIGHT);
-      fanSprites.add(tmp);
-    }
-    */
     configuration = new ArrayList();
   
     for (int i = 0; i < wall_sprites_n; i ++) {
@@ -91,7 +69,6 @@ class Walls extends Actor {
     
     wallSprites = new ArrayList();
     
-    //waring i m getting the references to the images that I loaded in setup
     for (int i : configuration) {
       switch(i) {
         case 0:
