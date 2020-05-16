@@ -19,6 +19,12 @@ ArrayList<PImage> wallFanSprites;
 PImage wallSimpleSprite;
 PImage wallCircuitSprite;
 
+PImage wallSide;
+PImage wallCornerTopLeft;
+PImage wallCornerTopRight;
+PImage wallCornerBottomLeft;
+PImage wallCornerBottomRight;
+
 String[] fanSpritesUrl = {
     "data/Background/Wall_2_fan/Wall_2_1_fan.png", 
     "data/Background/Wall_2_fan/Wall_2_2_fan.png", 
@@ -61,11 +67,27 @@ void keyPressed() {
 }
 
 void initRessources() {
+  
   //load the different images, only one time
   wallSimpleSprite = loadImage("data/Background/Wall_simple.png");
   wallCircuitSprite = loadImage("data/Background/Wall_circuit.png");
   wallSimpleSprite.resize(DOOR_WIDTH, DOOR_HEIGHT);
   wallCircuitSprite.resize(DOOR_WIDTH, DOOR_HEIGHT);
+  
+  //loading images for the sides of the walls
+  wallSide = loadImage("data/Background/Wall_side_left.png");
+  wallCornerTopLeft = loadImage("data/Background/Corners/Wall_corner_up_left.png");
+  wallCornerTopRight = loadImage("data/Background/Corners/Wall_corner_up_right.png");
+  //wallCornerBottomLeft = loadImage("data/Background/Corners/Wall_Corner_down_left.png");
+  //wallCornerBottomRight = loadImage("data/Background/Corners/Wall_corner_down_right.png");
+  
+  wallSide.resize(WALL_UNIT_WIDTH, WALL_UNIT_HEIGHT);
+  wallCornerTopLeft.resize(WALL_UNIT_WIDTH, WALL_UNIT_HEIGHT);
+  wallCornerTopRight.resize(WALL_UNIT_WIDTH, WALL_UNIT_HEIGHT);
+  //wallCornerBottomLeft.resize(WALL_UNIT_WIDTH, WALL_UNIT_HEIGHT);
+  //wallCornerBottomRight.resize(WALL_UNIT_WIDTH, WALL_UNIT_HEIGHT);
+   
+  //loading sprites for the animated wall sprites
   wallFanSprites = new ArrayList();
   wallFanSprites.add(loadImage("data/Background/Wall_2_fan/Wall_2_1_fan.png"));
   wallFanSprites.add(loadImage("data/Background/Wall_2_fan/Wall_2_2_fan.png"));
@@ -75,4 +97,5 @@ void initRessources() {
   for (PImage img : wallFanSprites) {
       img.resize(DOOR_WIDTH, DOOR_HEIGHT);
   }
+  
 }

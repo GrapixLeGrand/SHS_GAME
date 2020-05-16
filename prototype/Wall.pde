@@ -1,16 +1,17 @@
 
 public enum wall_type {NORM, CIRCUIT, FAN};
+public enum Side {LEFT_SIDE, RIGHT_SIDE};
 
 class Sprite extends Entity {
   
   private PImage sprite;
   
   Sprite(PImage spriteImg) {
-     //this.sprite = spriteImg.copy();
      this.sprite = spriteImg;
   }
   
   void update() {
+    
   }
   
   void drawSprite(float pos) {
@@ -30,7 +31,6 @@ class AnimatedSprite extends Sprite {
     super(sprites.get(0));
     animationSprites = new ArrayList();
     for (PImage img : sprites) {
-      //animationSprites.add(img.copy());
       animationSprites.add(img);
     }
     this.speed = speed;
@@ -55,11 +55,35 @@ class Walls extends Actor {
   //private PImage sprite;
   //private PImage spriteWallSimple;
   private int wall_sprites_n = (dunjeon.width - 2 * WALL_UNIT_HEIGHT) / WALL_UNIT_WIDTH;
+  private int wall_sprites_side_n = (dunjeon.width - 2 * WALL_UNIT_HEIGHT) / WALL_UNIT_HEIGHT;
   
   ArrayList<Integer> configuration;
   ArrayList<Sprite> wallSprites;
+  ArrayList<Sprite> sideSpritesLeft;
+  ArrayList<Sprite> sideSpritesRight;
+  ArrayList<Sprite> cornerSprites;
+  
+  Sprite cornerRight;
+  Sprite cornerLeft;
   
   Walls() {
+    
+    cornerRight = new Sprite(wallCornerTopRight);
+    cornerLeft = new Sprite(wallCornerTopLeft);
+    
+    sideSpritesLeft = new ArrayList();
+    sideSpritesRight = new ArrayList();
+    cornerSprites = new ArrayList();
+    
+    cornerSprites.add(new Sprite(wallCornerTopRight));
+   
+    for (int i = 0; i < wall_sprites_side_n; i++) {
+      sideSpritesLeft.add(new Sprite(wallSide));
+    }
+
+    for (int i = 0; i < wall_sprites_side_n; i++) {
+      sideSpritesRight.add(new Sprite(wallSide));
+    }
     
     configuration = new ArrayList();
   
@@ -91,7 +115,37 @@ class Walls extends Actor {
     }
   }
   
-  private void drawWalls(PVector trans, float angle) {
+  final float WALL_SIDE_OFFSET = 25.0f;
+  
+  
+  //meant to draw the side sprites wall
+  private void drawWallsVertical(ArrayList<Sprite> sprites, PVector trans, float angle, Side side) {
+    
+    float factor = 1.0f;
+    
+    if (side == Side.LEFT_SIDE) {
+      factor = - 1.0f;
+    }
+    
+    int index = 0;
+     for (int i = - wall_sprites_side_n / 2 + 1; i < wall_sprites_side_n / 2 + 1; i ++) {
+       
+          dunjeon.pushMatrix();
+          dunjeon.translate(trans.x - factor * WALL_SIDE_OFFSET, trans.y);
+          dunjeon.rotate(angle);
+          dunjeon.pushMatrix();
+          dunjeon.translate(dunjeon.width/2 - WALL_UNIT_HEIGHT * (i - 1), 0);
+          dunjeon.rotate(PI / 2);
+          sprites.get(index).drawSprite(0);
+          dunjeon.popMatrix();
+          index ++;
+          dunjeon.popMatrix();
+          
+        }
+  }
+  
+  //meant to draw the up and down sprites wall (the in front of the camera ones)
+  private void drawWallsHorizontal(PVector trans, float angle) {
     int index = 0;
      for (int i = - wall_sprites_n / 2 + 1; i < wall_sprites_n / 2 + 1; i ++) {
           dunjeon.pushMatrix();
@@ -103,11 +157,42 @@ class Walls extends Actor {
         }
   }
   
+  void drawCornerWalls() {
+    
+    //draw right top
+    dunjeon.pushMatrix(); 
+    dunjeon.translate(dunjeon.width - WALL_UNIT_HEIGHT, 0);
+    cornerRight.drawSprite(0);
+    dunjeon.popMatrix();
+    
+    //draw right bottom
+    dunjeon.pushMatrix(); 
+    dunjeon.translate(dunjeon.width - WALL_SIDE_OFFSET, dunjeon.height);
+    dunjeon.rotate(PI);
+    cornerLeft.drawSprite(0);
+    dunjeon.popMatrix();
+    
+    //draw left bottom
+    dunjeon.pushMatrix(); 
+    dunjeon.translate(WALL_SIDE_OFFSET + WALL_UNIT_WIDTH, dunjeon.height);
+    dunjeon.rotate(-PI);
+    cornerRight.drawSprite(0);
+    dunjeon.popMatrix();
+    
+    //draw left top
+    dunjeon.pushMatrix(); 
+    dunjeon.translate(WALL_SIDE_OFFSET, 0);
+    cornerLeft.drawSprite(0);
+    dunjeon.popMatrix();
+    
+  }
+  
   public void render() {
-    drawWalls(new PVector(0, 0), 0);
-    drawWalls(new PVector(dunjeon.width, 0), PI / 2);
-    drawWalls(new PVector(dunjeon.width, dunjeon.height), PI);
-    drawWalls(new PVector(0, dunjeon.height), 3 * PI / 2);
+    drawWallsHorizontal(new PVector(0, 0), 0);
+    drawWallsVertical(sideSpritesRight, new PVector(dunjeon.width, 0), PI / 2, Side.RIGHT_SIDE);
+    drawWallsHorizontal(new PVector(dunjeon.width, dunjeon.height), PI);
+    drawWallsVertical(sideSpritesLeft, new PVector(0, dunjeon.height), 3 * PI / 2, Side.LEFT_SIDE);
+    drawCornerWalls();
   }
 
 }

@@ -1,4 +1,4 @@
-//different types of commands //<>// //<>//
+//different types of commands //<>// //<>// //<>// //<>//
 enum Command { 
   CD, CAT, ECHO, help, git;
 }
