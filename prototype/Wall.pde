@@ -61,8 +61,7 @@ class Walls extends Actor {
   ArrayList<Sprite> wallSprites;
   ArrayList<Sprite> sideSpritesLeft;
   ArrayList<Sprite> sideSpritesRight;
-  ArrayList<Sprite> cornerSprites;
-  
+ 
   Sprite cornerRight;
   Sprite cornerLeft;
   
@@ -73,9 +72,6 @@ class Walls extends Actor {
     
     sideSpritesLeft = new ArrayList();
     sideSpritesRight = new ArrayList();
-    cornerSprites = new ArrayList();
-    
-    cornerSprites.add(new Sprite(wallCornerTopRight));
    
     for (int i = 0; i < wall_sprites_side_n; i++) {
       sideSpritesLeft.add(new Sprite(wallSide));
@@ -116,7 +112,6 @@ class Walls extends Actor {
   }
   
   final float WALL_SIDE_OFFSET = 25.0f;
-  
   
   //meant to draw the side sprites wall
   private void drawWallsVertical(ArrayList<Sprite> sprites, PVector trans, float angle, Side side) {
