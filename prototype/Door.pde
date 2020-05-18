@@ -20,7 +20,7 @@ public class Door extends Item {
   
   //added sound to door
   private Sound doorSound;
-  private String doorSoundPath = "door.mp3";
+  private String doorSoundPath = "data/door.mp3";
   private Sprite doorSprite;
   private Room nextRoom;
   public Position cardinalPosition;

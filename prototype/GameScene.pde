@@ -77,10 +77,10 @@ class GameScene extends Scene {
   private void buildDunjeon() {
     initDoorSprites();
     
-    Room entrance = new Room("entrance", "room.png");
-    Room nextRoom = new Room("room a", "room.png");
-    Room captchaRoom = new Room("room b", "room.png");
-    Room fileRoom = new Room("room c", "room.png");
+    Room entrance = new Room("entrance", "data/room.png");
+    Room nextRoom = new Room("room a", "data/room.png");
+    Room captchaRoom = new Room("room b", "data/room.png");
+    Room fileRoom = new Room("room c", "data/room.png");
     
     Door door1 = new Door(Position.NORTH, nextRoom);
     entrance.addItem(door1);
