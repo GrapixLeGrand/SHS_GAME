@@ -56,7 +56,7 @@ class Walls extends Actor {
   //private PImage spriteWallSimple;
   private int wall_sprites_n = (dunjeon.width - 2 * WALL_UNIT_HEIGHT) / WALL_UNIT_WIDTH;
   private int wall_sprites_side_n = (dunjeon.width - 2 * WALL_UNIT_HEIGHT) / WALL_UNIT_HEIGHT;
-  
+  private int grid_n = 8;
   
   ArrayList<Integer> configuration;
   ArrayList<Sprite> wallSprites;
@@ -117,8 +117,8 @@ class Walls extends Actor {
   }
   
   void drawGrid() {
-    for (int j = 0; j < 8; j ++) {
-      for (int i = 0; i < 8; i ++) {
+    for (int j = 0; j < grid_n; j ++) {
+      for (int i = 0; i < grid_n; i ++) {
         dunjeon.pushMatrix();
         dunjeon.translate(0, WALL_UNIT_HEIGHT * (j + 1));
         ground.drawSprite(WALL_UNIT_HEIGHT * (i + 1));

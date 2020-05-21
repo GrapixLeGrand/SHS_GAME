@@ -50,6 +50,8 @@ void setup() {
 
 void draw() {
   
+  background(0);
+  
   if (testFunctionality){
     
     String[] a = "loubliv\ndwando".split("\n");

@@ -22,7 +22,8 @@ class GameScene extends Scene {
   
   Map<Collectible, Door> doorMap;
   
-  private final int textOffsetX = 15;
+  
+  private final int textOffsetX = 35;
   private final int textOffsetY = 20;
   private final String userName = System.getProperty("user.name");
   private String currentModifiedCmd = "";
@@ -65,9 +66,23 @@ class GameScene extends Scene {
     malwen.render();
     dunjeon.endDraw();
     
+    float terminalGridX = 5;
+    float terminalGridY = 5;
+    float terminalRadius = 15;
+    float terminalGridWidth = 7;
+    
     terminal.beginDraw();
+    
     terminal.background(0);
+    terminal.pushStyle();
+    terminal.fill(100);
+    terminal.rect(terminalGridX, terminalGridY, terminal.width - 2 * terminalGridX, terminal.height - 2 * terminalGridY, terminalRadius, terminalRadius, terminalRadius, terminalRadius);
+    terminal.fill(0);
+    terminal.rect(terminalGridX + terminalGridWidth, terminalGridY + terminalGridWidth, terminal.width - 2 * (terminalGridX + terminalGridWidth), terminal.height - 2 * (terminalGridY + terminalGridWidth), terminalRadius, terminalRadius, terminalRadius, terminalRadius);
+    terminal.popStyle();
+    
     drawTerminal();
+    
     terminal.endDraw();
     
     image(dunjeon, height/8, 0);
@@ -169,6 +184,7 @@ class GameScene extends Scene {
       printList.add(new Pair(new String(i), b));
       numDisplay ++;
     }
+    
   }
   
   void manageAddedCommands() {

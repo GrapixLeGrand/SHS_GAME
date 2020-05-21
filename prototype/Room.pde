@@ -1,4 +1,7 @@
 
+final int ROOM_BACKGROUND_WIDTH = 400;
+final int ROOM_BACKGROUND_HEIGHT = 300;
+
 class Room extends Actor {
   
   private List<Item> items;
@@ -10,6 +13,7 @@ class Room extends Actor {
   Room(String name, String backgroundUrl) {
     this.name = name;
     this.background = loadImage(backgroundUrl);
+    this.background.resize(ROOM_BACKGROUND_WIDTH, ROOM_BACKGROUND_HEIGHT);
     this.items = new ArrayList<Item>();
     walls = new Walls();
   }
