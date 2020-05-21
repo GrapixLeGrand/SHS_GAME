@@ -24,6 +24,7 @@ PImage wallCornerTopLeft;
 PImage wallCornerTopRight;
 PImage wallCornerBottomLeft;
 PImage wallCornerBottomRight;
+PImage groundGrid;
 
 String[] fanSpritesUrl = {
     "data/Background/Wall_2_fan/Wall_2_1_fan.png", 
@@ -97,5 +98,8 @@ void initRessources() {
   for (PImage img : wallFanSprites) {
       img.resize(DOOR_WIDTH, DOOR_HEIGHT);
   }
+  
+  groundGrid = loadImage("data/Background/Wall_grid.png");
+  groundGrid.resize(WALL_UNIT_HEIGHT, WALL_UNIT_HEIGHT);
   
 }

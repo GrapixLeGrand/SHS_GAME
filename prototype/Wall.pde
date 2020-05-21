@@ -57,6 +57,7 @@ class Walls extends Actor {
   private int wall_sprites_n = (dunjeon.width - 2 * WALL_UNIT_HEIGHT) / WALL_UNIT_WIDTH;
   private int wall_sprites_side_n = (dunjeon.width - 2 * WALL_UNIT_HEIGHT) / WALL_UNIT_HEIGHT;
   
+  
   ArrayList<Integer> configuration;
   ArrayList<Sprite> wallSprites;
   ArrayList<Sprite> sideSpritesLeft;
@@ -65,8 +66,12 @@ class Walls extends Actor {
   Sprite cornerRight;
   Sprite cornerLeft;
   
+  Sprite ground;
+  
   Walls() {
-    
+     
+    ground = new Sprite(groundGrid);
+    //println(wall_sprites_side_n);
     cornerRight = new Sprite(wallCornerTopRight);
     cornerLeft = new Sprite(wallCornerTopLeft);
     
@@ -108,6 +113,17 @@ class Walls extends Actor {
   public void update() {
     for (Sprite s : wallSprites) {
       s.update();
+    }
+  }
+  
+  void drawGrid() {
+    for (int j = 0; j < 8; j ++) {
+      for (int i = 0; i < 8; i ++) {
+        dunjeon.pushMatrix();
+        dunjeon.translate(0, WALL_UNIT_HEIGHT * (j + 1));
+        ground.drawSprite(WALL_UNIT_HEIGHT * (i + 1));
+        dunjeon.popMatrix();
+      }
     }
   }
   
@@ -188,6 +204,7 @@ class Walls extends Actor {
     drawWallsHorizontal(new PVector(dunjeon.width, dunjeon.height), PI);
     drawWallsVertical(sideSpritesLeft, new PVector(0, dunjeon.height), 3 * PI / 2, Side.LEFT_SIDE);
     drawCornerWalls();
+    drawGrid();
   }
 
 }
